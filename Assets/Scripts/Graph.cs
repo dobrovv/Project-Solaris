@@ -26,6 +26,8 @@ public class Graph
         public LaneComp road;
         public float weight;
 
+        public LaneComp Road { get { return road; } }
+
         private VertexT a;
         private VertexT b;
 
@@ -188,7 +190,7 @@ public class Graph
         return this.Matrix[v1, v2].weight;
     }
 
-    public EdgeT GetEdgeBetween(VertexT v1, VertexT v2)
+    public EdgeT GetEdgeBetweenVertices(VertexT v1, VertexT v2)
     {
         int iv1 = vertices.IndexOf(v1);
         int iv2 = vertices.IndexOf(v2);

@@ -1,7 +1,5 @@
-using TMPro;
-using UnityEditor.Rendering;
+﻿using TMPro;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class StarComp : MonoBehaviour
 {
@@ -9,6 +7,7 @@ public class StarComp : MonoBehaviour
     
     private float energyCountFloat = 0f;
     private int   energyCount = 0;
+    
     private int   maxEnergyCount = 100;
 
     private StarType starType;
@@ -16,6 +15,8 @@ public class StarComp : MonoBehaviour
     private Graph.VertexT vertex;
     private Vector3 position;
 
+    public const float POP_INC_INTERVAL = 0.1f; // How often the popCount increases (in seconds)
+    public float energyIncCountdown = POP_INC_INTERVAL; // Countdown timer for increasing popCount
 
     private GameObject quadCircle, quadProgress, quadSelection, quadOutline, quadIcon, quadGlow;
 
@@ -30,7 +31,8 @@ public class StarComp : MonoBehaviour
         vertex = v;
         position = new Vector3(v.position.x, v.position.y, 1f);
         starType = type; 
-        diameter = StarTypes.GetStarTypeDiameter(type);
+        diameter = StarTypes.GetStarTypeRadius(type); // Set diameter based on star type, times 2 due to later scaling
+        maxEnergyCount = StarTypes.GetStarTypeMaxEnergyRate(type);
 
         transform.position = position;
     }
@@ -54,15 +56,24 @@ public class StarComp : MonoBehaviour
         UpdateProgress();
         UpdateText();
         UpdateIcon();
+        UpdateSelection();
         UpdateGlow();
     }
 
     private void Update()
     {
-        SetEnergy(energyCountFloat + Time.deltaTime * 10f); // Example: Increase energy over time for demonstration
+        // 1. Update the energy increase countdown timer
+        if (energyIncCountdown <= 0)
+        {
+            energyIncCountdown = POP_INC_INTERVAL;
+            OnEnergyIncCountdown();
+        }
+        
+        // 2. Decrease the countdown timer based on the elapsed time and game time scale
+        energyIncCountdown -= Time.deltaTime * GameManager.Instance.gameTimeScale;
 
 
-        // Rotate the selection quad if this star is selected, otherwise hide it
+        // 1. Rotate the selection quad if this star is selected, otherwise hide it
         if (GameManager.Instance.selectedStar == this)
         {
             quadSelection.SetActive(true);
@@ -73,6 +84,28 @@ public class StarComp : MonoBehaviour
             quadSelection.SetActive(false);
         }
 
+    }
+
+    public void OnEnergyIncCountdown()
+    {
+        if (faction == Factions.Neutral)
+            return; // Neutral stars do not produce energy
+
+        if (energyCountFloat < maxEnergyCount) { 
+            float energyIncrease = StarTypes.GetStarTypeProductionRate(StarType) * POP_INC_INTERVAL;
+            SetEnergy(energyCountFloat + energyIncrease); // Increase energy by 1 each interval
+        }
+        else
+        {
+            float excess = energyCountFloat - maxEnergyCount;
+
+            // Smoothly reduce the excess energy.
+            float dampedExcess = excess * Mathf.Exp(
+                -StarTypes.GetStarTypeDampingRate(starType) * POP_INC_INTERVAL
+            ) -1 * POP_INC_INTERVAL;
+
+            SetEnergy(Mathf.Max(maxEnergyCount, maxEnergyCount + dampedExcess));
+        }
     }
 
     public void SetEnergy(float energy)
@@ -96,10 +129,71 @@ public class StarComp : MonoBehaviour
         get { return faction; }
     }
 
+    public int EnergyCount
+    {
+        get { return energyCount; }
+    }
+
+    public float EnergyCountFloat
+    {
+        get { return energyCountFloat; }
+    }
+
+    public float Diameter
+    {
+        get { return diameter; }
+    }
+
 
     public bool isOverfilled()
     {
         return energyCount > maxEnergyCount;
+    }
+
+    public void OnEnergyArrived(EnergyComp unit)
+    {
+
+        if (unit.Faction == this.Faction)
+        {
+            SetEnergy(energyCountFloat + unit.EnergyCount);
+
+            FloatingText.Create("+" + unit.EnergyCount,
+                new Vector3(transform.position.x, transform.position.y + diameter + 0.2f, transform.position.z),
+                faction.color
+            );
+        }
+        else
+        {
+            if (unit.EnergyCount > energyCountFloat)
+            {
+                SetEnergy(unit.EnergyCount - energyCountFloat);
+                faction = unit.Faction;
+                
+                FloatingText.Create("CAPURED",
+                    new Vector3(transform.position.x, transform.position.y + diameter + 0.2f, transform.position.z),
+                    new Color(252f/255f, 211f/255f, 77f/255f)
+                );
+
+                GrowingCircle.CreateStarPulse(position, new Color(252f / 255f, 211f / 255f, 77f / 255f), 0.5f, StarTypes.GetStarTypeRadius(starType)-0.1f);
+
+                UpdateCircle();
+                UpdateIcon();
+                UpdateGlow();
+                UpdateSelection();
+                
+                GameManager.Instance.graph.GetEdgesFromVertex(vertex).ForEach(edge => edge.Road.SetSolidLine());
+
+            }
+            else if (unit.EnergyCount <= energyCountFloat)
+            {
+                SetEnergy(energyCountFloat - unit.EnergyCount);
+
+                FloatingText.Create("-" + unit.EnergyCount,
+                    new Vector3(transform.position.x, transform.position.y + diameter + 0.2f, transform.position.z),
+                    unit.Faction.color
+                );
+            }
+        }
     }
 
     private void CreateCircle()
@@ -323,6 +417,12 @@ public class StarComp : MonoBehaviour
         quadRenderer.material.SetFloat("_Percentage", Mathf.Clamp01(energyCountFloat / maxEnergyCount));
     }
 
+    private void UpdateSelection()
+    {
+        Renderer quadRenderer = quadSelection.GetComponent<Renderer>();
+        quadRenderer.material.SetColor("_Color", faction.color);
+    }
+
     private void UpdateText()
     {
         energyText.text = energyCount.ToString();
@@ -340,4 +440,5 @@ public class StarComp : MonoBehaviour
         Renderer quadRenderer = quadGlow.GetComponent<Renderer>();
         quadRenderer.material.SetColor("_Color", faction.color);
     }
+
 }

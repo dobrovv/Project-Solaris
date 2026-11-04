@@ -38,7 +38,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Fadeoff: 3.5
-    - _Height: 0.015
+    - _Height: 0.03
     - _Speed: 1.6
     - _Width: 0.5
     m_Colors:

@@ -38,13 +38,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Faloff: 1.5
-    - _Intensity: 0.5
+    - _Faloff: 0.55
+    - _Intensity: 0.13
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Radius: 0.5
+    - _XRMotionVectorsPass: 1
     m_Colors:
-    - _Color: {r: 0.20051667, g: 0.0967871, b: 0.7075471, a: 1}
+    - _Color: {r: 0.5800107, g: 0.6498914, b: 0.9245283, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &521722113079834015

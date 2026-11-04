@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Camera))]
-public class OrthographicCameraController2D : MonoBehaviour
+public class CameraControllerPC : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 10f;
@@ -125,5 +125,13 @@ public class OrthographicCameraController2D : MonoBehaviour
         zoomAction.Disable();
         dragHoldAction.Disable();
         mouseDeltaAction.Disable();
+    }
+
+    private void OnEnable()
+    {
+        moveAction.Enable();
+        zoomAction.Enable();
+        dragHoldAction.Enable();
+        mouseDeltaAction.Enable();
     }
 }
