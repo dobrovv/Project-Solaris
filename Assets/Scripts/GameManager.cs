@@ -65,10 +65,13 @@ public class GameManager : MonoBehaviour
         } else
         {
             MapData mapData = MapLoader.LoadMap("map_0"+MainMenuOptions.SelectedMap);
+            AI.Build("Normal", ai1, graph);
+            AI.Build("Normal", ai2, graph);
+            AI.Build("Normal", ai3, graph);
         }
 
 
-        //AI.Build("Hard", ai1, graph);
+
 
     }
 
