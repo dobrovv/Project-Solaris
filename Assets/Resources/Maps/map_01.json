@@ -1,0 +1,38 @@
+{
+  "mapName": "First Contact",
+  "stars": [
+    { "name": "Alpha",   "x": -8.0, "y":  0.0, "population": 45, "type": "Normal",     "faction": "Player"  },
+    { "name": "Vega",    "x": -6.0, "y":  3.0, "population": 15, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Nova",    "x": -5.5, "y": -3.2, "population": 60, "type": "GasGiant",   "faction": "Neutral" },
+    { "name": "Rigel",   "x": -2.8, "y":  1.8, "population": 20, "type": "Normal",     "faction": "Neutral" },
+    { "name": "Crown",   "x":  0.0, "y":  4.3, "population": 60, "type": "GasGiant",   "faction": "Neutral" },
+    { "name": "Atlas",   "x":  2.8, "y":  1.8, "population": 20, "type": "Normal",     "faction": "Neutral" },
+    { "name": "Core",    "x":  0.0, "y":  0.0, "population": 20, "type": "Normal",     "faction": "Neutral" },
+    { "name": "Aegis",   "x": -2.8, "y": -1.8, "population": 44, "type": "Normal",     "faction": "Neutral" },
+    { "name": "Bastion", "x":  2.8, "y": -1.8, "population": 44, "type": "Normal",     "faction": "Neutral" },
+    { "name": "Abyss",   "x":  0.0, "y": -4.3, "population": 15, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Lyra",    "x":  6.0, "y":  3.0, "population": 15, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Orion",   "x":  8.0, "y":  0.0, "population": 45, "type": "Normal",     "faction": "AI_1"    },
+    { "name": "Titan",   "x":  5.5, "y": -3.2, "population": 60, "type": "GasGiant",   "faction": "Neutral" }
+  ],
+  "connections": [
+    { "from": 0,  "to": 1  },
+    { "from": 0,  "to": 2  },
+    { "from": 1,  "to": 3  },
+    { "from": 2,  "to": 7  },
+    { "from": 3,  "to": 4  },
+    { "from": 3,  "to": 6  },
+    { "from": 4,  "to": 6  },
+    { "from": 4,  "to": 5  },
+    { "from": 5,  "to": 6  },
+    { "from": 5,  "to": 10 },
+    { "from": 6,  "to": 7  },
+    { "from": 6,  "to": 8  },
+    { "from": 6,  "to": 9  },
+    { "from": 7,  "to": 9  },
+    { "from": 8,  "to": 9  },
+    { "from": 8,  "to": 12 },
+    { "from": 12, "to": 11 },
+    { "from": 10, "to": 11 }
+  ]
+}

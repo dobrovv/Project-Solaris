@@ -1,0 +1,36 @@
+{
+  "mapName": "Diamond Lattice",
+  "stars": [
+    { "name": "Alpha",  "x": -8.0, "y":  0.0, "population": 50, "type": "Normal",     "faction": "Player"  },
+    { "name": "Vega",   "x": -5.4, "y":  2.8, "population": 18, "type": "WhiteDwarf", "faction": "Player"  },
+    { "name": "Rigel",  "x": -5.4, "y": -2.8, "population": 18, "type": "WhiteDwarf", "faction": "Player"  },
+    { "name": "Drift",  "x": -2.1, "y":  0.0, "population": 20, "type": "Normal",     "faction": "Neutral" },
+    { "name": "Crown",  "x":  0.1, "y":  4.6, "population": 60, "type": "GasGiant",   "faction": "Neutral" },
+    { "name": "Flare",  "x":  1.3, "y":  2.8, "population": 20, "type": "Normal",     "faction": "Neutral" },
+    { "name": "Spark",  "x":  1.3, "y": -2.8, "population": 20, "type": "Normal",     "faction": "Neutral" },
+    { "name": "Abyss",  "x":  0.1, "y": -5.5, "population": 60, "type": "GasGiant",   "faction": "Neutral" },
+    { "name": "Relay",  "x":  2.6, "y":  0.0, "population": 24, "type": "Normal",     "faction": "Neutral" },
+    { "name": "Lyra",   "x":  5.4, "y":  2.8, "population": 18, "type": "WhiteDwarf", "faction": "AI_1"    },
+    { "name": "Atlas",  "x":  5.4, "y": -2.8, "population": 18, "type": "WhiteDwarf", "faction": "AI_1"    },
+    { "name": "Orion",  "x":  8.0, "y":  0.0, "population": 40, "type": "Normal",     "faction": "AI_1"    }
+  ],
+  "connections": [
+    { "from": 0,  "to": 1  },
+    { "from": 0,  "to": 2  },
+    { "from": 0,  "to": 3  },
+    { "from": 1,  "to": 4  },
+    { "from": 1,  "to": 3  },
+    { "from": 2,  "to": 3  },
+    { "from": 2,  "to": 7  },
+    { "from": 4,  "to": 5  },
+    { "from": 5,  "to": 3  },
+    { "from": 5,  "to": 9  },
+    { "from": 3,  "to": 8  },
+    { "from": 3,  "to": 6  },
+    { "from": 8,  "to": 11 },
+    { "from": 9,  "to": 11 },
+    { "from": 11, "to": 10 },
+    { "from": 6,  "to": 10 },
+    { "from": 6,  "to": 7  }
+  ]
+}

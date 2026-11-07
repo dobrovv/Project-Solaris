@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 1381700334}
   - component: {fileID: 1381700333}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Starfield background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,6 +191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1555923394}
   - component: {fileID: 1555923393}
+  - component: {fileID: 1555923395}
   m_Layer: 5
   m_Name: PanelRenderer
   m_TagString: Untagged
@@ -248,7 +249,7 @@ PanelRenderer:
   m_MaskInteraction: 0
   serializedVersion: 1
   m_PanelSettings: {fileID: 11400000, guid: a1ab5a1deb8f1a64792001873fbde925, type: 2}
-  sourceAsset: {fileID: 9197481963319205126, guid: aff7c3022e6deb346a53828e1399cdeb, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: 878e1346f9954a94ea2b85fba76df16b, type: 3}
   m_ParentUI: {fileID: 0}
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
@@ -271,6 +272,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1555923395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555923392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e902ee7d8e28014bb8d81f6450822f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainUIController
+  panelRenderer: {fileID: 0}
 --- !u!1 &1871665984
 GameObject:
   m_ObjectHideFlags: 0

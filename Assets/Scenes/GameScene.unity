@@ -595,7 +595,7 @@ MonoBehaviour:
   twinkleSpeedRange: {x: 0.5, y: 2.5}
   targetCamera: {fileID: 0}
   areaMultiplier: 1.5
-  parallax: 0.95
+  parallax: 0.75
   sortingLayerName: Default
   sortingOrder: -100
   randomSeed: 0

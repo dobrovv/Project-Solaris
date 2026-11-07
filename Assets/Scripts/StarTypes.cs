@@ -26,11 +26,11 @@ public class StarTypes
             case StarType.Defensive:
                 return 0.5f;
             case StarType.WhiteDwarf:
-                return 0.38f;
+                return 0.36f; // 0.38
             case StarType.GasGiant:
-                return 0.75f;
+                return 0.70f; // 0.75
             default:
-                return 0.5f;
+                return 0.55f; // 0.5
         }
     }
 

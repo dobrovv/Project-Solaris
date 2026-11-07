@@ -112,12 +112,12 @@ public class InputControllerPC : MonoBehaviour
         else
         {
             // Prevent player from clicking on a keep that does not belong to them and selecting it
-            //if (clickedKeepComp.Faction != Factions.Player)
-            //{
-            //    // Clicked on a keep that does not belong to the player, do nothing
-            //    GameManager.Instance.SetSelectedStar(null);
-            //    return;
-            //}
+            if (clickedKeepComp.Faction != Factions.Player)
+            {
+                // Clicked on a keep that does not belong to the player, do nothing
+                GameManager.Instance.SetSelectedStar(null);
+                return;
+            }
             GameManager.Instance.SetSelectedStar(clickedKeepComp);
         }
     }
