@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public abstract class AI
 {
@@ -115,6 +116,48 @@ public abstract class AI
 
     }
 
+    public List<Graph.VertexT> FindPathToClosestKeepAtBorderStrict(Graph.VertexT start)
+    {
+        // Standard FIFO Queue for BFS traversal
+        Queue<Graph.VertexT> queue = new Queue<Graph.VertexT>();
+
+        Dictionary<Graph.VertexT, Graph.VertexT> predecessors = new Dictionary<Graph.VertexT, Graph.VertexT>();
+
+        List<Graph.VertexT> borderland = GetAllKeepsAtBorderStrict();
+
+        // Initialize BFS
+        queue.Enqueue(start);
+        predecessors[start] = default!; // Start node has no parent
+
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+
+            if (borderland.Contains(current))
+            {
+                return ReconstructPath(predecessors, current);
+            }
+
+            foreach (Graph.VertexT neighbor in graph.GetAdjacentVertices(current))
+            {
+                // Skip paths that lead to keeps of different factions (including neutrals)
+                if ((neighbor.keep.Faction != start.keep.Faction))
+                    continue;
+
+                // If the neighbor hasn't been discovered yet
+                if (!predecessors.ContainsKey(neighbor))
+                {
+                    predecessors[neighbor] = current; // Record where we came from
+                    queue.Enqueue(neighbor);
+                }
+            }
+
+        }
+
+        return new List<Graph.VertexT>(); // Return empty list if no path exists
+
+    }
+
     /// <summary>
     /// Backtracks from the target node back to the start node to construct the path.
     /// </summary>
@@ -134,7 +177,7 @@ public abstract class AI
         return path;
     }
 
-    public int getPotentialAttackersEnergyCount(Graph.VertexT targetKeep)
+    public int getPotentialAttackersEnergyCount(Graph.VertexT targetKeep, Graph.VertexT sourceKeep)
     {
         int potentialAttackers = 0;
         List<Graph.VertexT> neighbors = graph.GetAdjacentVertices(targetKeep);
@@ -144,8 +187,12 @@ public abstract class AI
             {
                 potentialAttackers += neighbor.keep.EnergyCount;
             }
+            else if (neighbor.keep.Faction == faction && neighbor.keep != sourceKeep.keep)
+            {
+                potentialAttackers -= neighbor.keep.EnergyCount;
+            }
         }
-        return potentialAttackers;
+        return Mathf.Max(0,potentialAttackers);
     }
 
 }
@@ -282,20 +329,9 @@ public class AIHard : AI
 
     }
 
-    override protected void DoUpdate()
+
+    public void OnExpansionRoutine(Graph.VertexT v)
     {
-        //Debug.Log("AI Update for faction: " + faction.color.ToString());
-
-        // AI logic to decide on actions
-        // For example, find a keep to attack or reinforce
-        var keeps = GetKeepsForFaction(faction);
-
-        if (keeps.Count == 0)
-            return;
-
-        int randomIndex = Random.Range(0, keeps.Count);
-        Graph.VertexT v = keeps[randomIndex];
-
         bool isKeepAtBorder = IsKeepAtBorder(v);
 
         var neighbours = graph.GetAdjacentVertices(v);
@@ -310,9 +346,9 @@ public class AIHard : AI
                 //Debug.Log("AIHard: Moving unit from keep " + v.keep.name + " to closest borderland keep " + nextKeep.keep.name);
                 var road = graph.GetEdgeBetweenVertices(v, nextKeep).road;
 
-                    GameManager.Instance.CreateUnit(v.keep, graph.GetEdgeBetweenVertices(v, nextKeep).road);
-                    //v.keep.autoPointerRoad = road;
-                    return;
+                GameManager.Instance.CreateUnit(v.keep, graph.GetEdgeBetweenVertices(v, nextKeep).road);
+                //v.keep.autoPointerRoad = road;
+                return;
 
             }
             else
@@ -328,7 +364,7 @@ public class AIHard : AI
 
             foreach (Graph.VertexT neighbor in neighbours)
             {
-                if (neighbor.keep.Faction != faction && v.keep.EnergyCount > getPotentialAttackersEnergyCount(neighbor) + neighbor.keep.EnergyCount + 1)
+                if (neighbor.keep.Faction != faction && v.keep.EnergyCount > getPotentialAttackersEnergyCount(neighbor, v) + neighbor.keep.EnergyCount + 1)
                 {
                     GameManager.Instance.CreateUnit(v.keep, graph.GetEdgeBetweenVertices(v, neighbor).road);
                     return;
@@ -355,7 +391,40 @@ public class AIHard : AI
             }
 
         }
+    }
 
+    override protected void DoUpdate()
+    {
+        //Debug.Log("AI Update for faction: " + faction.color.ToString());
 
+        // AI logic to decide on actions
+        // For example, find a keep to attack or reinforce
+        var keeps = GetKeepsForFaction(faction);
+
+        if (keeps.Count == 0)
+            return;
+
+        int randomIndex = Random.Range(0, keeps.Count);
+        Graph.VertexT v = keeps[randomIndex];
+
+        //OnExpansionRoutine(v);
+        
+        var pathToClosetBorderland = FindPathToClosestKeepAtBorderStrict(v);
+        
+        if (pathToClosetBorderland.Count > 1)
+        {
+            var nextKeep = pathToClosetBorderland[1];
+            //Debug.Log("AIHard: Moving unit from keep " + v.keep.name + " to closest borderland keep " + nextKeep.keep.name);
+            var road = graph.GetEdgeBetweenVertices(v, nextKeep).road;
+
+            GameManager.Instance.CreateUnit(v.keep, graph.GetEdgeBetweenVertices(v, nextKeep).road);
+            //v.keep.autoPointerRoad = road;
+            return;
+
+        }
+        else
+        {
+            OnExpansionRoutine(v);
+        }
     }
 }

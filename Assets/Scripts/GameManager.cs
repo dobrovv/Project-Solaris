@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -59,15 +58,29 @@ public class GameManager : MonoBehaviour
         Faction ai2 = factions.CreateFaction();
         Faction ai3 = factions.CreateFaction();
         //CreateMap02(ai1);
-        
-        if (MainMenuOptions.GameMode == "Skirmish") { 
+
+        if (MainMenuOptions.GameMode == "Skirmish") {
             GenerateMap();
         } else
         {
-            MapData mapData = MapLoader.LoadMap("map_0"+MainMenuOptions.SelectedMap);
-            AI.Build("Normal", ai1, graph);
-            AI.Build("Normal", ai2, graph);
-            AI.Build("Normal", ai3, graph);
+            MapData mapData = MapLoader.LoadMap("map_0" + MainMenuOptions.SelectedMap);
+
+            if (MainMenuOptions.SelectedMap == "1" || MainMenuOptions.SelectedMap == "2")
+            {
+                AI.Build("Easy", ai1, graph);
+                AI.Build("Easy", ai2, graph);
+                AI.Build("Easy", ai3, graph);
+            } else if (MainMenuOptions.SelectedMap == "3" || MainMenuOptions.SelectedMap == "4")
+            {
+                AI.Build("Normal", ai1, graph);
+                AI.Build("Normal", ai2, graph);
+                AI.Build("Normal", ai3, graph);
+            } else
+            {
+                AI.Build("Hard", ai1, graph);
+                AI.Build("Hard", ai2, graph);
+                AI.Build("Hard", ai3, graph);
+            }
         }
 
 

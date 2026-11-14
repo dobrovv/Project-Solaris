@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
-using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Networking;
 
 [Serializable]
 public class MapData
