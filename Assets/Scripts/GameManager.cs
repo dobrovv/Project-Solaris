@@ -63,14 +63,14 @@ public class GameManager : MonoBehaviour
             GenerateMap();
         } else
         {
-            MapData mapData = MapLoader.LoadMap("map_0" + MainMenuOptions.SelectedMap);
+            MapData mapData = MapLoader.LoadMap("map_" + MainMenuOptions.SelectedMap);
 
-            if (MainMenuOptions.SelectedMap == "1" || MainMenuOptions.SelectedMap == "2")
+            if (MainMenuOptions.SelectedMap == "01" || MainMenuOptions.SelectedMap == "02")
             {
                 AI.Build("Easy", ai1, graph);
                 AI.Build("Easy", ai2, graph);
                 AI.Build("Easy", ai3, graph);
-            } else if (MainMenuOptions.SelectedMap == "3" || MainMenuOptions.SelectedMap == "4")
+            } else if (MainMenuOptions.SelectedMap == "03" || MainMenuOptions.SelectedMap == "04" || MainMenuOptions.SelectedMap == "05" || MainMenuOptions.SelectedMap == "06")
             {
                 AI.Build("Normal", ai1, graph);
                 AI.Build("Normal", ai2, graph);

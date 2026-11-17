@@ -1,0 +1,28 @@
+{
+  "mapName": "Quiet Sector",
+  "stars": [
+    { "name": "Alpha", "x": -7.60, "y": 0.00, "population": 50, "type": "Normal", "faction": "Player" },
+    { "name": "Orion", "x": 7.60, "y": 0.00, "population": 38, "type": "Normal", "faction": "AI_1" },
+    { "name": "Bastion", "x": -5.20, "y": -2.60, "population": 22, "type": "Normal", "faction": "Player" },
+    { "name": "Kaus", "x": -3.20, "y": 3.90, "population": 18, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Core", "x": -1.50, "y": 0.30, "population": 60, "type": "GasGiant", "faction": "Neutral" },
+    { "name": "Fomalhaut", "x": -0.90, "y": -2.30, "population": 15, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Mizar", "x": -0.10, "y": 3.20, "population": 13, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Kochab", "x": 2.50, "y": 3.50, "population": 18, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Nunki", "x": 5.50, "y": 2.90, "population": 26, "type": "Normal", "faction": "Neutral" }
+  ],
+  "connections": [
+    { "from": 0, "to": 2 },
+    { "from": 0, "to": 3 },
+    { "from": 1, "to": 5 },
+    { "from": 1, "to": 8 },
+    { "from": 2, "to": 4 },
+    { "from": 2, "to": 5 },
+    { "from": 3, "to": 4 },
+    { "from": 3, "to": 6 },
+    { "from": 4, "to": 5 },
+    { "from": 4, "to": 6 },
+    { "from": 6, "to": 7 },
+    { "from": 7, "to": 8 }
+  ]
+}

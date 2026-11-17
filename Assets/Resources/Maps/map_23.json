@@ -1,0 +1,33 @@
+{
+  "mapName": "Crossing Point",
+  "stars": [
+    { "name": "Alpha", "x": -7.60, "y": 0.00, "population": 50, "type": "Normal", "faction": "Player" },
+    { "name": "Orion", "x": 7.60, "y": 0.00, "population": 43, "type": "Normal", "faction": "AI_1" },
+    { "name": "Polaris", "x": -5.00, "y": -1.20, "population": 22, "type": "Normal", "faction": "Player" },
+    { "name": "Merak", "x": -3.30, "y": 3.20, "population": 20, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Vesper", "x": -2.00, "y": -4.00, "population": 13, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Deneb", "x": -1.20, "y": -1.40, "population": 18, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Core", "x": -0.70, "y": 2.50, "population": 60, "type": "GasGiant", "faction": "Neutral" },
+    { "name": "Alnair", "x": 1.70, "y": -2.60, "population": 29, "type": "Normal", "faction": "Neutral" },
+    { "name": "Sabik", "x": 2.30, "y": 3.10, "population": 44, "type": "Normal", "faction": "Neutral" },
+    { "name": "Capella", "x": 4.70, "y": -2.40, "population": 26, "type": "Normal", "faction": "Neutral" },
+    { "name": "Achernar", "x": 5.40, "y": 2.80, "population": 19, "type": "WhiteDwarf", "faction": "Neutral" }
+  ],
+  "connections": [
+    { "from": 0, "to": 2 },
+    { "from": 0, "to": 3 },
+    { "from": 1, "to": 9 },
+    { "from": 1, "to": 10 },
+    { "from": 2, "to": 3 },
+    { "from": 2, "to": 4 },
+    { "from": 2, "to": 5 },
+    { "from": 3, "to": 6 },
+    { "from": 4, "to": 5 },
+    { "from": 4, "to": 7 },
+    { "from": 5, "to": 6 },
+    { "from": 5, "to": 7 },
+    { "from": 6, "to": 8 },
+    { "from": 7, "to": 9 },
+    { "from": 8, "to": 10 }
+  ]
+}

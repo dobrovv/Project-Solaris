@@ -1,0 +1,26 @@
+{
+  "mapName": "New Horizon",
+  "stars": [
+    { "name": "Alpha", "x": -7.60, "y": 0.00, "population": 50, "type": "Normal", "faction": "Player" },
+    { "name": "Orion", "x": 7.60, "y": 0.00, "population": 34, "type": "Normal", "faction": "AI_1" },
+    { "name": "Vesper", "x": -5.10, "y": 2.30, "population": 20, "type": "WhiteDwarf", "faction": "Player" },
+    { "name": "Pollux", "x": -4.40, "y": -1.50, "population": 20, "type": "WhiteDwarf", "faction": "Player" },
+    { "name": "Core", "x": -2.00, "y": 0.70, "population": 60, "type": "GasGiant", "faction": "Neutral" },
+    { "name": "Rigel", "x": -1.90, "y": -2.80, "population": 18, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Kochab", "x": 2.00, "y": 2.90, "population": 17, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Dubhe", "x": 2.30, "y": -2.10, "population": 23, "type": "Normal", "faction": "Neutral" }
+  ],
+  "connections": [
+    { "from": 0, "to": 2 },
+    { "from": 0, "to": 3 },
+    { "from": 1, "to": 6 },
+    { "from": 1, "to": 7 },
+    { "from": 2, "to": 3 },
+    { "from": 2, "to": 4 },
+    { "from": 3, "to": 4 },
+    { "from": 3, "to": 5 },
+    { "from": 4, "to": 5 },
+    { "from": 4, "to": 6 },
+    { "from": 5, "to": 7 }
+  ]
+}

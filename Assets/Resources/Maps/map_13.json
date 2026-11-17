@@ -1,0 +1,30 @@
+{
+  "mapName": "Stepping Stones",
+  "stars": [
+    { "name": "Alpha", "x": -7.60, "y": 0.00, "population": 50, "type": "Normal", "faction": "Player" },
+    { "name": "Orion", "x": 7.60, "y": 0.00, "population": 40, "type": "Normal", "faction": "AI_1" },
+    { "name": "Altair", "x": -5.50, "y": -3.50, "population": 12, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Spark", "x": -5.40, "y": 3.90, "population": 14, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Antares", "x": -4.70, "y": 1.40, "population": 22, "type": "Normal", "faction": "Player" },
+    { "name": "Core", "x": -1.10, "y": 3.40, "population": 60, "type": "GasGiant", "faction": "Neutral" },
+    { "name": "Atlas", "x": -0.30, "y": 1.00, "population": 40, "type": "Normal", "faction": "Neutral" },
+    { "name": "Vesper", "x": 1.00, "y": -2.20, "population": 15, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Rigel", "x": 2.30, "y": 2.40, "population": 20, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Alcor", "x": 3.40, "y": -2.40, "population": 16, "type": "WhiteDwarf", "faction": "Neutral" }
+  ],
+  "connections": [
+    { "from": 0, "to": 2 },
+    { "from": 0, "to": 4 },
+    { "from": 1, "to": 8 },
+    { "from": 1, "to": 9 },
+    { "from": 2, "to": 4 },
+    { "from": 3, "to": 4 },
+    { "from": 3, "to": 5 },
+    { "from": 4, "to": 5 },
+    { "from": 5, "to": 6 },
+    { "from": 5, "to": 8 },
+    { "from": 6, "to": 7 },
+    { "from": 6, "to": 8 },
+    { "from": 7, "to": 9 }
+  ]
+}

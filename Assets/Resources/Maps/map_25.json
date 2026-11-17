@@ -1,0 +1,41 @@
+{
+  "mapName": "Contested Ground",
+  "stars": [
+    { "name": "Alpha", "x": -7.60, "y": 0.00, "population": 50, "type": "Normal", "faction": "Player" },
+    { "name": "Orion", "x": 7.60, "y": 0.00, "population": 55, "type": "Normal", "faction": "AI_1" },
+    { "name": "Castor", "x": -4.70, "y": 2.20, "population": 31, "type": "Normal", "faction": "Neutral" },
+    { "name": "Spark", "x": -3.90, "y": -0.20, "population": 19, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Nova", "x": -3.50, "y": -2.30, "population": 19, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Flare", "x": -1.40, "y": -1.60, "population": 19, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Spica", "x": -1.20, "y": 2.60, "population": 25, "type": "Normal", "faction": "Neutral" },
+    { "name": "Ember", "x": -1.00, "y": -3.80, "population": 15, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Core", "x": 0.70, "y": 1.60, "population": 60, "type": "GasGiant", "faction": "Neutral" },
+    { "name": "Nunki", "x": 1.20, "y": -3.70, "population": 25, "type": "Normal", "faction": "Neutral" },
+    { "name": "Achernar", "x": 2.40, "y": 3.00, "population": 18, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Sirius", "x": 3.30, "y": -0.10, "population": 15, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Alcor", "x": 4.10, "y": -3.20, "population": 24, "type": "Normal", "faction": "Neutral" },
+    { "name": "Bastion", "x": 5.60, "y": 1.30, "population": 30, "type": "Normal", "faction": "Neutral" }
+  ],
+  "connections": [
+    { "from": 0, "to": 2 },
+    { "from": 0, "to": 3 },
+    { "from": 1, "to": 12 },
+    { "from": 1, "to": 13 },
+    { "from": 2, "to": 3 },
+    { "from": 2, "to": 6 },
+    { "from": 3, "to": 4 },
+    { "from": 3, "to": 5 },
+    { "from": 4, "to": 5 },
+    { "from": 4, "to": 7 },
+    { "from": 5, "to": 7 },
+    { "from": 6, "to": 8 },
+    { "from": 7, "to": 9 },
+    { "from": 8, "to": 10 },
+    { "from": 8, "to": 11 },
+    { "from": 9, "to": 12 },
+    { "from": 10, "to": 11 },
+    { "from": 10, "to": 13 },
+    { "from": 11, "to": 12 },
+    { "from": 11, "to": 13 }
+  ]
+}

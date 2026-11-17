@@ -9,6 +9,6 @@ public static class MainMenuOptions
 
     public static string GameMode { get; set; } = "Skirmish";
 
-    public static string SelectedMap { get; set; } = "1";
+    public static string SelectedMap { get; set; } = "01";
     
 }

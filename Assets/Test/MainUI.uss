@@ -1,3 +1,11 @@
+/* =========================================================
+   SOLARIS - Main UI
+   Sharp "tactical HUD" look: square corners, thin cyan lines,
+   left-aligned layout. Root stays fully transparent so the
+   starfield behind the UI stays visible.
+   ========================================================= */
+
+/* ---------- ROOT ---------- */
 .root {
     flex-grow: 1;
     min-width: 0;
@@ -8,21 +16,16 @@
     overflow: hidden;
 }
 
-.ambient-orb {
-    display: none;
-}
-
+/* ---------- TOP BAR ---------- */
 .topbar {
-    height: 52px;
+    height: 46px;
     flex-shrink: 0;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    padding-left: 16px;
-    padding-right: 16px;
-    background-color: rgba(7, 12, 22, 0.28);
+    justify-content: space-between;
+    padding: 0 20px;
     border-bottom-width: 1px;
-    border-bottom-color: rgba(120, 190, 225, 0.16);
+    border-bottom-color: rgba(75, 220, 245, 0.18);
 }
 
 .brand-lockup {
@@ -31,25 +34,42 @@
 }
 
 .brand-mark {
-    width: 7px;
-    height: 7px;
-    margin-right: 8px;
+    width: 8px;
+    height: 8px;
+    margin-right: 12px;
     background-color: rgb(75, 220, 245);
-    border-radius: 4px;
+    rotate: 45deg;
 }
 
 .brand-title {
-    color: rgb(230, 245, 255);
+    color: rgb(235, 247, 255);
     font-size: 13px;
     -unity-font-style: bold;
-    letter-spacing: 3px;
+    letter-spacing: 5px;
     -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
 }
 
-.topbar-caption {
-    display: none;
+.status-lockup {
+    flex-direction: row;
+    align-items: center;
 }
 
+.status-dot {
+    width: 5px;
+    height: 5px;
+    margin-right: 7px;
+    border-radius: 3px;
+    background-color: rgb(75, 220, 245);
+}
+
+.status-text {
+    color: rgba(150, 185, 210, 0.7);
+    font-size: 8px;
+    letter-spacing: 2px;
+    -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
+}
+
+/* ---------- PAGES ---------- */
 .page {
     flex-grow: 1;
     min-height: 0;
@@ -62,82 +82,33 @@
     display: none;
 }
 
-.main-page {
-    flex-direction: column;
+/* ---------- SHARED TEXT ---------- */
+.eyebrow-row {
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.eyebrow-line {
+    width: 22px;
+    height: 1px;
+    margin-right: 10px;
+    background-color: rgb(75, 220, 245);
 }
 
 .eyebrow {
-    color: rgb(75, 215, 240);
+    color: rgb(75, 220, 245);
     font-size: 9px;
     -unity-font-style: bold;
-    letter-spacing: 3px;
-    margin-bottom: 9px;
-}
-
-.hero-title {
-    color: rgb(245, 249, 255);
-    font-size: 27px;
-    -unity-font-style: bold;
-    letter-spacing: 1px;
-    -unity-text-align: middle-center;
-    -unity-font-definition: resource("Fonts/SpaceGrotesk-Light");
-}
-
-.hero-subtitle {
-    color: rgba(195, 213, 232, 0.78);
-    font-size: 12px;
-    margin-top: 10px;
-    margin-bottom: 28px;
-    -unity-text-align: middle-center;
-    white-space: normal;
-}
-
-.main-menu-buttons {
-    width: 100%;
-    max-width: 320px;
-    align-items: stretch;
-}
-
-.menu-button {
-    height: 54px;
-    margin-bottom: 11px;
-    font-size: 12px;
     letter-spacing: 3px;
     -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
 }
 
-.main-page-footer {
-    color: rgba(130, 160, 190, 0.58);
-    font-size: 8px;
-    letter-spacing: 2px;
-    margin-top: 26px;
-    -unity-text-align: middle-center;
-}
-
-.content-page {
-    align-items: center;
-    justify-content: center;
-}
-
-.content-panel {
-    width: 100%;
-    max-width: 480px;
-    max-height: 100%;
-    min-height: 0;
-    padding: 20px 16px;
-    background-color: rgba(6, 13, 25, 0.6);
-    border-width: 1px;
-    border-color: rgba(100, 190, 225, 0.22);
-    border-radius: 12px;
-}
-
 .section-title {
     color: rgb(240, 247, 255);
-    font-size: 20px;
+    font-size: 22px;
     -unity-font-style: bold;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     -unity-font-definition: resource("Fonts/SpaceGrotesk-Light");
 }
 
@@ -145,188 +116,402 @@
     color: rgba(175, 197, 220, 0.72);
     font-size: 11px;
     margin-top: 6px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     white-space: normal;
     -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
 }
 
-.level-grid {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-left: -3px;
-    margin-right: -3px;
+/* ---------- MAIN PAGE ---------- */
+.main-page {
+    align-items: flex-start;
+    justify-content: center;
+    padding-left: 28px;
+    padding-right: 28px;
 }
 
-.level-button {
-    width: 31%;
-    min-width: 0;
-    height: 64px;
-    margin: 3px;
-    background-color: rgba(16, 34, 53, 0.55);
-    border-width: 1px;
-    border-color: rgba(95, 160, 195, 0.25);
-    border-radius: 8px;
-    color: rgba(210, 230, 248, 0.86);
-    font-size: 11px;
+.hero-title {
+    color: rgb(245, 249, 255);
+    font-size: 40px;
     -unity-font-style: bold;
-    letter-spacing: 1px;
-    transition-property: background-color, border-color, scale, opacity;
-    transition-duration: 140ms;
+    letter-spacing: 3px;
+    -unity-font-definition: resource("Fonts/SpaceGrotesk-Light");
+}
+
+.hero-title-accent {
+    color: rgb(75, 220, 245);
+    text-shadow: 0 0 14px rgba(75, 220, 245, 0.55);
+}
+
+.hero-subtitle {
+    color: rgba(195, 213, 232, 0.75);
+    font-size: 12px;
+    margin-top: 14px;
+    margin-bottom: 30px;
+    white-space: normal;
     -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
 }
 
-.level-button:hover {
-    background-color: rgba(28, 80, 105, 0.65);
-    border-color: rgb(70, 205, 235);
+.main-menu-buttons {
+    width: 100%;
+    max-width: 360px;
+    align-items: stretch;
 }
 
-.level-button.selected {
-    background-color: rgba(20, 130, 160, 0.36);
-    border-color: rgb(70, 220, 245);
-    color: white;
-}
-
-.selection-status {
-    min-height: 16px;
-    color: rgb(90, 215, 240);
+.main-page-footer {
+    color: rgba(130, 165, 195, 0.6);
     font-size: 9px;
-    letter-spacing: 2px;
-    margin-top: 12px;
-    -unity-text-align: middle-center;
+    letter-spacing: 3px;
+    margin-top: 28px;
 }
 
-.panel-actions {
-    flex-direction: row;
-    justify-content: space-between;
+/* ---------- CONTENT PANELS (campaign / skirmish) ---------- */
+.content-page {
     align-items: center;
-    margin-top: 18px;
+    justify-content: center;
 }
 
-.action-button {
-    flex-grow: 1;
-    min-width: 0;
-    height: 46px;
-    margin-left: 4px;
-    margin-right: 4px;
-    font-size: 10px;
-    letter-spacing: 1px;
-    -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
-}
-
-.primary-button {
-    background-color: rgba(25, 150, 185, 0.76);
+.content-panel {
+    width: 100%;
+    max-width: 520px;
+    max-height: 100%;
+    min-height: 0;
+    padding: 18px 16px 16px 16px;
+    background-color: rgba(4, 10, 20, 0.45);
     border-width: 1px;
-    border-color: rgba(90, 225, 245, 0.85);
-    border-radius: 8px;
-    color: rgb(248, 253, 255);
+    border-color: rgba(75, 200, 230, 0.2);
+    border-top-width: 2px;
+    border-top-color: rgb(75, 220, 245);
+    border-radius: 0;
+}
+
+.campaign-panel {
+    flex-grow: 1;
+}
+
+/* ---------- BUTTONS: primary / secondary ---------- */
+.primary-button {
+    margin: 0;
+    padding: 0;
+    background-color: rgba(60, 215, 240, 0.92);
+    border-width: 1px;
+    border-color: rgb(120, 240, 255);
+    border-radius: 0;
+    color: rgb(3, 18, 30);
     -unity-font-style: bold;
-    transition-property: background-color, border-color, scale, opacity;
-    transition-duration: 160ms;
+    transition-property: background-color, border-color, color, scale, translate;
+    transition-duration: 150ms;
 }
 
 .primary-button:hover {
-    background-color: rgba(40, 185, 215, 0.9);
-    border-color: rgb(160, 245, 255);
+    background-color: rgb(130, 238, 252);
+    border-color: rgb(200, 250, 255);
 }
 
 .primary-button:active {
     scale: 0.97 0.97;
-    background-color: rgba(15, 115, 150, 0.9);
+    background-color: rgb(40, 180, 205);
 }
 
 .primary-button:disabled {
-    background-color: rgba(35, 50, 65, 0.55);
-    border-color: rgba(80, 100, 120, 0.4);
-    color: rgba(150, 165, 180, 0.5);
+    background-color: rgba(35, 50, 65, 0.45);
+    border-color: rgba(80, 100, 120, 0.35);
+    color: rgba(150, 165, 180, 0.45);
 }
 
 .secondary-button {
-    background-color: rgba(10, 20, 34, 0.48);
+    margin: 0;
+    padding: 0;
+    background-color: rgba(6, 14, 26, 0.4);
     border-width: 1px;
-    border-color: rgba(120, 160, 190, 0.28);
-    border-radius: 8px;
-    color: rgba(205, 225, 245, 0.85);
+    border-color: rgba(120, 175, 205, 0.35);
+    border-radius: 0;
+    color: rgba(205, 225, 245, 0.88);
     -unity-font-style: bold;
-    transition-property: background-color, border-color, scale;
-    transition-duration: 140ms;
+    transition-property: background-color, border-color, color, scale, translate;
+    transition-duration: 150ms;
 }
 
 .secondary-button:hover {
-    background-color: rgba(25, 55, 75, 0.65);
-    border-color: rgba(100, 205, 230, 0.7);
+    background-color: rgba(25, 70, 95, 0.55);
+    border-color: rgb(75, 220, 245);
+    color: white;
 }
 
 .secondary-button:active {
     scale: 0.97 0.97;
 }
 
-.skirmish-panel {
-    width: 100%;
+/* main menu rows (defined AFTER primary/secondary so the thick left bar wins) */
+.menu-button {
+    height: 58px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+    border-left-width: 4px;
+    font-size: 13px;
+    letter-spacing: 4px;
+    -unity-text-align: middle-left;
+    -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
 }
 
+.menu-button.primary-button {
+    border-left-color: rgb(200, 250, 255);
+}
+
+.menu-button.secondary-button {
+    border-left-color: rgb(75, 220, 245);
+}
+
+.menu-button:hover {
+    translate: 6px 0;
+}
+
+/* bottom action row */
+.panel-actions {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 12px;
+    margin-left: -4px;
+    margin-right: -4px;
+}
+
+.action-button {
+    flex-basis: 0;
+    flex-grow: 1;
+    min-width: 0;
+    height: 46px;
+    margin-left: 4px;
+    margin-right: 4px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
+}
+
+.primary-button.action-button {
+    flex-grow: 2;
+}
+
+/* ---------- CAMPAIGN: SCROLL VIEW ---------- */
+.level-scroll {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+}
+
+.level-scroll .unity-scroll-view__vertical-scroller {
+    width: 6px;
+    margin-left: 10px;
+}
+
+.level-scroll .unity-scroller--vertical {
+    width: 6px;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+}
+
+.level-scroll .unity-scroller__low-button,
+.level-scroll .unity-scroller__high-button {
+    display: none;
+}
+
+.level-scroll .unity-base-slider__tracker {
+    background-color: rgba(100, 190, 225, 0.1);
+    border-width: 0;
+    border-radius: 0;
+}
+
+.level-scroll .unity-base-slider__dragger {
+    width: 6px;
+    margin: 0;
+    background-color: rgba(75, 220, 245, 0.7);
+    border-width: 0;
+    border-radius: 0;
+}
+
+/* sector headers */
+.chapter-header {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 18px;
+    margin-bottom: 10px;
+}
+
+.chapter-header:first-child {
+    margin-top: 0;
+}
+
+.chapter-title {
+    color: rgb(75, 220, 245);
+    font-size: 10px;
+    -unity-font-style: bold;
+    letter-spacing: 3px;
+    -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
+}
+
+.chapter-line {
+    flex-grow: 1;
+    height: 1px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: rgba(100, 190, 225, 0.22);
+}
+
+.chapter-range {
+    color: rgba(150, 185, 210, 0.6);
+    font-size: 9px;
+    letter-spacing: 1px;
+    -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
+}
+
+/* level tiles: 5 per row, 10 per sector */
+.level-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.level-button {
+    width: 18%;
+    min-width: 0;
+    height: 54px;
+    margin: 0 0 8px 0;
+    padding: 0;
+    background-color: rgba(10, 24, 40, 0.5);
+    border-width: 1px;
+    border-color: rgba(95, 160, 195, 0.28);
+    border-bottom-width: 2px;
+    border-radius: 0;
+    color: rgba(210, 230, 248, 0.88);
+    font-size: 15px;
+    -unity-font-style: bold;
+    transition-property: background-color, border-color, color, scale;
+    transition-duration: 140ms;
+    -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
+}
+
+.level-button:hover {
+    background-color: rgba(28, 80, 105, 0.6);
+    border-color: rgb(75, 220, 245);
+}
+
+.level-button:active {
+    scale: 0.95 0.95;
+}
+
+/* last level of each sector (amber accent, delete this rule to keep it all cyan) */
+.level-button.boss {
+    border-bottom-color: rgb(255, 190, 90);
+}
+
+.level-button.selected {
+    background-color: rgba(60, 215, 240, 0.92);
+    border-color: rgb(120, 240, 255);
+    color: rgb(3, 18, 30);
+}
+
+.level-button.selected:hover {
+    background-color: rgb(130, 238, 252);
+}
+
+/* optional: add the "locked" class (or set enabled="false") for unavailable levels */
+.level-button.locked,
+.level-button:disabled {
+    background-color: rgba(10, 18, 28, 0.35);
+    border-color: rgba(80, 100, 120, 0.22);
+    color: rgba(150, 165, 180, 0.35);
+}
+
+/* selection strip above the action buttons */
+.selection-bar {
+    flex-shrink: 0;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 12px;
+    padding: 9px 12px;
+    background-color: rgba(20, 130, 160, 0.14);
+    border-left-width: 2px;
+    border-left-color: rgb(75, 220, 245);
+}
+
+.selection-status {
+    color: rgb(90, 225, 245);
+    font-size: 10px;
+    letter-spacing: 2px;
+    -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
+}
+
+/* ---------- SKIRMISH ---------- */
 .settings-list {
     margin-top: 0;
 }
 
 .setting-row {
-    min-height: 0;
     flex-direction: column;
     align-items: stretch;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
 .setting-copy {
-    width: 100%;
     flex-shrink: 0;
     margin-bottom: 8px;
 }
 
 .setting-title {
+    padding-left: 8px;
+    border-left-width: 2px;
+    border-left-color: rgb(75, 220, 245);
     color: rgb(225, 239, 250);
     font-size: 10px;
     -unity-font-style: bold;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
 }
 
+/* hidden to save vertical space - remove this rule to show the hints */
 .setting-description {
     display: none;
+    margin-top: 3px;
+    padding-left: 10px;
+    color: rgba(160, 185, 210, 0.6);
+    font-size: 9px;
 }
 
+/* segmented control: three joined cells */
 .choice-buttons {
-    flex-grow: 1;
     flex-direction: row;
-    align-items: center;
+    height: 40px;
+    background-color: rgba(8, 18, 30, 0.45);
+    border-width: 1px;
+    border-color: rgba(95, 160, 195, 0.3);
 }
 
 .option-button {
+    flex-basis: 0;
     flex-grow: 1;
     min-width: 0;
-    height: 40px;
-    margin-left: 3px;
-    margin-right: 3px;
-    background-color: rgba(16, 34, 53, 0.55);
-    border-width: 1px;
-    border-color: rgba(95, 160, 195, 0.25);
-    border-radius: 7px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    border-right-width: 1px;
+    border-right-color: rgba(95, 160, 195, 0.22);
+    border-radius: 0;
     color: rgba(200, 220, 240, 0.8);
     font-size: 10px;
     -unity-font-style: bold;
-    letter-spacing: 0;
-    transition-property: background-color, border-color, scale;
+    letter-spacing: 2px;
+    transition-property: background-color, color, scale;
     transition-duration: 140ms;
-    -unity-font-definition: resource("Fonts/SpaceGrotesk-Light");
+    -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
+}
+
+.option-button:last-child {
+    border-right-width: 0;
 }
 
 .option-button:hover {
-    background-color: rgba(28, 80, 105, 0.65);
-    border-color: rgb(70, 205, 235);
-}
-
-.option-button.selected {
-    background-color: rgba(20, 130, 160, 0.36);
-    border-color: rgb(70, 220, 245);
+    background-color: rgba(28, 80, 105, 0.55);
     color: white;
 }
 
@@ -334,30 +519,16 @@
     scale: 0.96 0.96;
 }
 
-.opponent-choices .option-button {
-    min-width: 0;
+.option-button.selected {
+    background-color: rgba(60, 215, 240, 0.92);
+    color: rgb(3, 18, 30);
 }
 
-.setting-divider {
-    height: 1px;
-    margin-top: 3px;
-    margin-bottom: 3px;
-    background-color: rgba(100, 155, 190, 0.15);
+.option-button.selected:hover {
+    background-color: rgb(130, 238, 252);
+    color: rgb(3, 18, 30);
 }
 
-.bottom-bar {
-    height: 25px;
-    flex-shrink: 0;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding-left: 12px;
-    padding-right: 12px;
-    background-color: rgba(7, 12, 22, 0.2);
-    border-top-width: 1px;
-    border-top-color: rgba(120, 190, 225, 0.1);
-}
-
-.bottom-caption {
-    display: none;
+.skirmish-panel .panel-actions {
+    margin-top: 18px;
 }

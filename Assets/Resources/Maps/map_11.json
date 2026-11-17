@@ -1,0 +1,23 @@
+{
+  "mapName": "First Steps",
+  "stars": [
+    { "name": "Alpha", "x": -7.60, "y": 0.00, "population": 50, "type": "Normal", "faction": "Player" },
+    { "name": "Orion", "x": 7.60, "y": 0.00, "population": 30, "type": "Normal", "faction": "AI_1" },
+    { "name": "Achernar", "x": -5.30, "y": -3.20, "population": 22, "type": "Normal", "faction": "Player" },
+    { "name": "Canopus", "x": -2.60, "y": 3.70, "population": 22, "type": "Normal", "faction": "Player" },
+    { "name": "Core", "x": -1.70, "y": -0.60, "population": 60, "type": "GasGiant", "faction": "Neutral" },
+    { "name": "Mizar", "x": 0.80, "y": -2.20, "population": 37, "type": "Normal", "faction": "Neutral" },
+    { "name": "Procyon", "x": 4.70, "y": 3.20, "population": 31, "type": "Normal", "faction": "Neutral" }
+  ],
+  "connections": [
+    { "from": 0, "to": 2 },
+    { "from": 0, "to": 3 },
+    { "from": 0, "to": 4 },
+    { "from": 1, "to": 5 },
+    { "from": 1, "to": 6 },
+    { "from": 2, "to": 4 },
+    { "from": 3, "to": 4 },
+    { "from": 4, "to": 5 },
+    { "from": 5, "to": 6 }
+  ]
+}

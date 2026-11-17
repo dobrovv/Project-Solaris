@@ -1,0 +1,38 @@
+{
+  "mapName": "Level Field",
+  "stars": [
+    { "name": "Alpha", "x": -7.60, "y": 0.00, "population": 50, "type": "Normal", "faction": "Player" },
+    { "name": "Orion", "x": 7.60, "y": 0.00, "population": 53, "type": "Normal", "faction": "AI_1" },
+    { "name": "Polaris", "x": -5.00, "y": -1.20, "population": 17, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Pollux", "x": -4.70, "y": 3.90, "population": 19, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Vesper", "x": -2.60, "y": 3.70, "population": 15, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Achernar", "x": -2.00, "y": -4.00, "population": 18, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Deneb", "x": -1.20, "y": -1.40, "population": 20, "type": "WhiteDwarf", "faction": "Neutral" },
+    { "name": "Core", "x": -0.70, "y": 2.50, "population": 60, "type": "GasGiant", "faction": "Neutral" },
+    { "name": "Merak", "x": 0.20, "y": 0.30, "population": 24, "type": "Normal", "faction": "Neutral" },
+    { "name": "Alnair", "x": 1.70, "y": -2.60, "population": 30, "type": "Normal", "faction": "Neutral" },
+    { "name": "Sabik", "x": 2.30, "y": 3.10, "population": 45, "type": "Normal", "faction": "Neutral" },
+    { "name": "Capella", "x": 4.70, "y": -2.40, "population": 25, "type": "Normal", "faction": "Neutral" },
+    { "name": "Lyra", "x": 5.40, "y": 2.80, "population": 19, "type": "WhiteDwarf", "faction": "Neutral" }
+  ],
+  "connections": [
+    { "from": 0, "to": 2 },
+    { "from": 0, "to": 3 },
+    { "from": 1, "to": 11 },
+    { "from": 1, "to": 12 },
+    { "from": 2, "to": 5 },
+    { "from": 2, "to": 6 },
+    { "from": 3, "to": 4 },
+    { "from": 4, "to": 7 },
+    { "from": 5, "to": 6 },
+    { "from": 5, "to": 9 },
+    { "from": 6, "to": 8 },
+    { "from": 6, "to": 9 },
+    { "from": 7, "to": 8 },
+    { "from": 7, "to": 10 },
+    { "from": 8, "to": 9 },
+    { "from": 8, "to": 10 },
+    { "from": 9, "to": 11 },
+    { "from": 10, "to": 12 }
+  ]
+}

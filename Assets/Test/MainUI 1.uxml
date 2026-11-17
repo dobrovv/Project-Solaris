@@ -1,0 +1,97 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Test/MainUI.uss?fileID=7433441132597879392&amp;guid=f48ce707622d8964da55d740af36bec1&amp;type=3#MainUI"/>
+    <ui:VisualElement name="root" class="root">
+        <ui:VisualElement class="ambient-orb orb-cyan"/>
+        <ui:VisualElement class="ambient-orb orb-magenta"/>
+        <ui:VisualElement class="topbar">
+            <ui:VisualElement class="brand-lockup">
+                <ui:VisualElement class="brand-mark"/>
+                <ui:Label text="SOLARIS" class="brand-title"/>
+            </ui:VisualElement>
+            <ui:Label text="SPACE CONQUEST  /  COMMAND INTERFACE" class="topbar-caption"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="main-page" class="page main-page">
+            <ui:Label text="STRATEGIC COMMAND" class="eyebrow"/>
+            <ui:Label text="CONQUER THE STARS" class="hero-title"/>
+            <ui:Label text="Choose how you want to begin your campaign." class="hero-subtitle"/>
+            <ui:VisualElement class="main-menu-buttons">
+                <ui:Button name="campaign-button" text="CAMPAIGN" class="menu-button primary-button"/>
+                <ui:Button name="skirmish-button" text="SKIRMISH" class="menu-button secondary-button"/>
+            </ui:VisualElement>
+            <ui:Label text="EXPAND  •  CONTROL  •  CONQUER" class="main-page-footer"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="campaign-page" class="page content-page page-hidden">
+            <ui:VisualElement class="content-panel">
+                <ui:Label text="CAMPAIGN" class="eyebrow"/>
+                <ui:Label text="SELECT YOUR OPERATION" class="section-title"/>
+                <ui:Label text="Choose one of the six campaign missions." class="section-subtitle"/>
+                <ui:VisualElement class="level-grid">
+                    <ui:Button name="level-1" text="LEVEL 01" class="level-button"/>
+                    <ui:Button name="level-2" text="LEVEL 02" class="level-button"/>
+                    <ui:Button name="level-3" text="LEVEL 03" class="level-button"/>
+                    <ui:Button name="level-4" text="LEVEL 04" class="level-button"/>
+                    <ui:Button name="level-5" text="LEVEL 05" class="level-button"/>
+                    <ui:Button name="level-6" text="LEVEL 06" class="level-button"/>
+                </ui:VisualElement>
+                <ui:Label name="campaign-selection-label" text="NO LEVEL SELECTED" class="selection-status"/>
+                <ui:VisualElement class="panel-actions">
+                    <ui:Button name="campaign-back-button" text="BACK" class="secondary-button action-button"/>
+                    <ui:Button name="campaign-start-button" text="BEGIN CAMPAIGN" class="primary-button action-button"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="skirmish-page" class="page content-page page-hidden">
+            <ui:VisualElement class="content-panel skirmish-panel">
+                <ui:Label text="CUSTOM BATTLE" class="eyebrow"/>
+                <ui:Label text="SKIRMISH SETUP" class="section-title"/>
+                <ui:Label text="Configure the battlefield and opposing forces." class="section-subtitle"/>
+                <ui:VisualElement class="settings-list">
+                    <ui:VisualElement class="setting-row">
+                        <ui:VisualElement class="setting-copy">
+                            <ui:Label text="MAP SIZE" class="setting-title"/>
+                            <ui:Label text="Scale of the star map" class="setting-description"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="choice-buttons">
+                            <ui:Button name="map-small" text="SMALL" class="option-button"/>
+                            <ui:Button name="map-medium" text="MEDIUM" class="option-button selected"/>
+                            <ui:Button name="map-large" text="LARGE" class="option-button"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="setting-divider"/>
+                    <ui:VisualElement class="setting-row">
+                        <ui:VisualElement class="setting-copy">
+                            <ui:Label text="AI STRENGTH" class="setting-title"/>
+                            <ui:Label text="Opponent difficulty" class="setting-description"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="choice-buttons">
+                            <ui:Button name="ai-easy" text="EASY" class="option-button"/>
+                            <ui:Button name="ai-normal" text="NORMAL" class="option-button selected"/>
+                            <ui:Button name="ai-hard" text="HARD" class="option-button"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="setting-divider"/>
+                    <ui:VisualElement class="setting-row">
+                        <ui:VisualElement class="setting-copy">
+                            <ui:Label text="OPPONENTS" class="setting-title"/>
+                            <ui:Label text="Number of enemy factions" class="setting-description"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="choice-buttons opponent-choices">
+                            <ui:Button name="opponents-1" text="1" class="option-button"/>
+                            <ui:Button name="opponents-2" text="2" class="option-button selected"/>
+                            <ui:Button name="opponents-3" text="3" class="option-button"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="panel-actions">
+                    <ui:Button name="skirmish-back-button" text="BACK" class="secondary-button action-button"/>
+                    <ui:Button name="skirmish-start-button" text="START MATCH" class="primary-button action-button"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement class="bottom-bar">
+            <ui:Label text="STARFRONT TACTICAL NETWORK" class="bottom-caption"/>
+            <ui:Label text="SYSTEM ONLINE  •  BUILD 01" class="bottom-caption"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:Image/>
+</ui:UXML>

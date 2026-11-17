@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
@@ -54,6 +56,8 @@ public class MainUIController : MonoBehaviour
     private AIStrength selectedAIStrength = AIStrength.Normal;
     private int selectedOpponentCount = 2;
 
+    private VisualElement currentPage;
+
     public int SelectedCampaignLevel => selectedCampaignLevel;
     public MapSize SelectedMapSize => selectedMapSize;
     public AIStrength SelectedAIStrength => selectedAIStrength;
@@ -63,7 +67,7 @@ public class MainUIController : MonoBehaviour
     {
         
         MainMenuOptions.GameMode = "Campaign";
-        MainMenuOptions.SelectedMap = ""+campaign;
+        MainMenuOptions.SelectedMap = ""+campaign.ToString("D2");
         SceneManager.LoadScene("GameScene");
 
     }
@@ -77,7 +81,21 @@ public class MainUIController : MonoBehaviour
         MainMenuOptions.OpponentsCount = numOpponents;
         SceneManager.LoadScene("GameScene");
 
+    }
 
+    private void Update()
+    {
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            if (currentPage != null && currentPage != mainPage)
+            {
+                ShowPage(mainPage);
+            } else if ( currentPage == mainPage)
+            {
+                Application.Quit();
+            }
+           
+        }
     }
 
     private void Awake()
@@ -143,7 +161,7 @@ public class MainUIController : MonoBehaviour
         campaignStartButton = root.Q<Button>("campaign-start-button");
         campaignSelectionLabel = root.Q<Label>("campaign-selection-label");
 
-        levelButtons = new Button[6];
+        levelButtons = new Button[30];
 
         for (int i = 0; i < levelButtons.Length; i++)
             levelButtons[i] = root.Q<Button>($"level-{i + 1}");
@@ -382,6 +400,11 @@ public class MainUIController : MonoBehaviour
             pageToShow == skirmishPage
                 ? DisplayStyle.Flex
                 : DisplayStyle.None;
+
+        currentPage = pageToShow;
+
+        Vector3 pos = Camera.main.transform.position;
+        MoveCameraTo(new Vector3(pos.x+10, pos.y, pos.z), Quaternion.identity, 3);
     }
 
     private void StartCampaign()
@@ -434,4 +457,46 @@ public class MainUIController : MonoBehaviour
         boundButtons.Clear();
         boundActions.Clear();
     }
+
+
+    private Coroutine moveCoroutine;
+
+    public void MoveCameraTo(Vector3 targetPos, Quaternion rotation, float duration)
+    {
+        // Stop any existing camera movement so they don't fight each other
+        if (moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+        }
+
+        moveCoroutine = StartCoroutine(MoveCoroutine(targetPos, rotation, duration));
+    }
+
+    private IEnumerator MoveCoroutine(Vector3 targetPos, Quaternion targetRot, float duration)
+    {
+        Vector3 startPos = Camera.main.transform.position;
+        Quaternion startRot = Camera.main.transform.rotation;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            // Calculate normalized progress (0.0 to 1.0)
+            float t = elapsed / duration;
+
+            // Optional: Apply SmoothStep for ease-in, ease-out movement
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            Camera.main.transform.position = Vector3.Lerp(startPos, targetPos, t);
+            Camera.main.transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+
+            elapsed += Time.deltaTime;
+            yield return null; // Wait until the next frame
+        }
+
+        // Snap to exact final values to avoid floating-point inaccuracies
+        Camera.main.transform.position = targetPos;
+        Camera.main.transform.rotation = targetRot;
+        moveCoroutine = null;
+    }
+
 }
