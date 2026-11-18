@@ -10,5 +10,7 @@ public static class MainMenuOptions
     public static string GameMode { get; set; } = "Skirmish";
 
     public static string SelectedMap { get; set; } = "01";
-    
+
+    public static int Seed { get; set; } = 0;
+
 }

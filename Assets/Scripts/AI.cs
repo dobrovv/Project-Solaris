@@ -192,7 +192,7 @@ public abstract class AI
                 potentialAttackers -= neighbor.keep.EnergyCount;
             }
         }
-        return Mathf.Max(0,potentialAttackers);
+        return Mathf.Max(0, potentialAttackers);
     }
 
 }
@@ -316,6 +316,24 @@ public class AINormal : AI
 
 public class AIHard : AI
 {
+    // ------------------------------------------------------------------
+    // Tuning knobs - change these to make Hard easier or harder
+    // ------------------------------------------------------------------
+    const int ActionsPerTick = 1;        // how many units Hard may launch per AI tick
+    const int Garrison = 1;              // energy a keep always leaves at home
+    const float AttackMargin = 1f;       // required offence-minus-defence before attacking
+    const float ReinforceWeight = 0.5f;  // share of an enemy's neighbouring energy counted as help for the defender
+    const float EnemyValue = 10f;        // base value of capturing an enemy keep
+    const float NeutralValue = 7f;       // base value of capturing a neutral keep
+    const float DefenceBase = 12f;       // base priority of rescuing a threatened keep
+    const int NeutralHoldSlack = 4;      // border keeps keep their energy while a neutral is this close to being winnable
+
+    struct Move
+    {
+        public Graph.VertexT source;
+        public Graph.VertexT target;
+        public float score;
+    }
 
     public AIHard(Faction faction, Graph graph)
     {
@@ -326,105 +344,245 @@ public class AIHard : AI
         {
             DoUpdate();
         });
-
     }
 
-
-    public void OnExpansionRoutine(Graph.VertexT v)
-    {
-        bool isKeepAtBorder = IsKeepAtBorder(v);
-
-        var neighbours = graph.GetAdjacentVertices(v);
-
-        if (!isKeepAtBorder)
-        {
-            List<Graph.VertexT> pathToClosetBorderland = FindPathToClosestKeepAtBorder(v);
-
-            if (pathToClosetBorderland.Count > 1)
-            {
-                var nextKeep = pathToClosetBorderland[1];
-                //Debug.Log("AIHard: Moving unit from keep " + v.keep.name + " to closest borderland keep " + nextKeep.keep.name);
-                var road = graph.GetEdgeBetweenVertices(v, nextKeep).road;
-
-                GameManager.Instance.CreateUnit(v.keep, graph.GetEdgeBetweenVertices(v, nextKeep).road);
-                //v.keep.autoPointerRoad = road;
-                return;
-
-            }
-            else
-            {
-
-                int randomNeighbor = Random.Range(0, neighbours.Count);
-                GameManager.Instance.CreateUnit(v.keep, graph.GetEdgeBetweenVertices(v, neighbours[randomNeighbor]).road);
-                return;
-            }
-        }
-        else // keep is at border with another faction or neutrals
-        {
-
-            foreach (Graph.VertexT neighbor in neighbours)
-            {
-                if (neighbor.keep.Faction != faction && v.keep.EnergyCount > getPotentialAttackersEnergyCount(neighbor, v) + neighbor.keep.EnergyCount + 1)
-                {
-                    GameManager.Instance.CreateUnit(v.keep, graph.GetEdgeBetweenVertices(v, neighbor).road);
-                    return;
-                }
-            }
-
-
-            bool isKeepAtBorderWithNonNeutrals = IsKeepAtBorderWithNonNeutrals(v);
-            if (!isKeepAtBorderWithNonNeutrals)
-            {
-                // Send units to a neighboring keep to speed up map capture
-                foreach (Graph.VertexT neighbor in neighbours)
-                {
-                    if (neighbor.keep.Faction == faction && v.keep.EnergyCount <= neighbor.keep.EnergyCount)
-                    {
-                        GameManager.Instance.CreateUnit(v.keep, graph.GetEdgeBetweenVertices(v, neighbor).road);
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                //v.keep.autoPointerRoad = null;
-            }
-
-        }
-    }
-
+    // ------------------------------------------------------------------
+    // Main loop: collect every useful move, rank them, play the best ones
+    // ------------------------------------------------------------------
     override protected void DoUpdate()
     {
-        //Debug.Log("AI Update for faction: " + faction.color.ToString());
+        var mine = GetKeepsForFaction(faction);
 
-        // AI logic to decide on actions
-        // For example, find a keep to attack or reinforce
-        var keeps = GetKeepsForFaction(faction);
-
-        if (keeps.Count == 0)
+        if (mine.Count == 0)
             return;
 
-        int randomIndex = Random.Range(0, keeps.Count);
-        Graph.VertexT v = keeps[randomIndex];
+        var moves = new List<Move>();
+        CollectAttacks(mine, moves);
+        CollectDefense(mine, moves);
+        CollectReinforcements(mine, moves);
 
-        //OnExpansionRoutine(v);
-        
-        var pathToClosetBorderland = FindPathToClosestKeepAtBorderStrict(v);
-        
-        if (pathToClosetBorderland.Count > 1)
+        moves.Sort((a, b) => b.score.CompareTo(a.score));
+
+        var used = new HashSet<Graph.VertexT>();
+        int actions = 0;
+
+        foreach (var move in moves)
         {
-            var nextKeep = pathToClosetBorderland[1];
-            //Debug.Log("AIHard: Moving unit from keep " + v.keep.name + " to closest borderland keep " + nextKeep.keep.name);
-            var road = graph.GetEdgeBetweenVertices(v, nextKeep).road;
+            if (actions >= ActionsPerTick)
+                break;
 
-            GameManager.Instance.CreateUnit(v.keep, graph.GetEdgeBetweenVertices(v, nextKeep).road);
-            //v.keep.autoPointerRoad = road;
+            // one unit per keep per tick, and never empty a keep completely
+            if (used.Contains(move.source) || Spare(move.source) <= 0)
+                continue;
+
+            GameManager.Instance.CreateUnit(move.source.keep, graph.GetEdgeBetweenVertices(move.source, move.target).road);
+            used.Add(move.source);
+            actions++;
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // 1) Attacks: capture neutral / enemy keeps that we can overpower.
+    //    All our keeps next to the target count toward the attack, and the
+    //    defender gets credit for help from its own neighbours.
+    // ------------------------------------------------------------------
+    void CollectAttacks(List<Graph.VertexT> mine, List<Move> moves)
+    {
+        foreach (var v in mine)
+        {
+            if (Spare(v) <= 0)
+                continue;
+
+            foreach (var n in graph.GetAdjacentVertices(v))
+            {
+                if (IsMine(n))
+                    continue;
+
+                float advantage = OffenceAgainst(n) - DefenceOf(n);
+                if (advantage < AttackMargin)
+                    continue;
+
+                // hubs (many connections) are worth more because they open more routes
+                float value = (IsEnemy(n) ? EnemyValue : NeutralValue) + graph.GetAdjacentVertices(n).Count * 0.5f;
+
+                // don't strip a keep that other enemies are about to hit
+                int remaining = v.keep.EnergyCount - 1;
+                float exposed = Mathf.Max(0, EnemyEnergyAround(v, n) - remaining);
+
+                float score = value + advantage * 0.5f - n.keep.EnergyCount * 0.3f - exposed * 0.4f;
+                moves.Add(new Move { source = v, target = n, score = score });
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // 2) Defence: a keep with more enemy energy next to it than its own
+    //    energy gets help from a safer neighbouring keep.
+    // ------------------------------------------------------------------
+    void CollectDefense(List<Graph.VertexT> mine, List<Move> moves)
+    {
+        foreach (var k in mine)
+        {
+            int deficit = EnemyEnergyAround(k) - k.keep.EnergyCount;
+            if (deficit <= 0)
+                continue;
+
+            foreach (var donor in graph.GetAdjacentVertices(k))
+            {
+                if (!IsMine(donor) || Spare(donor) <= 0)
+                    continue;
+
+                int donorDeficit = EnemyEnergyAround(donor) - donor.keep.EnergyCount;
+                if (donorDeficit >= deficit)
+                    continue; // donor is in worse shape than the keep it would help
+
+                float score = DefenceBase + Mathf.Min(deficit, 8) - Mathf.Max(0, donorDeficit) * 0.5f;
+                moves.Add(new Move { source = donor, target = k, score = score });
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // 3) Reinforcement: interior keeps push energy toward the front line.
+    //    The front is every keep touching a real enemy; if no enemy is
+    //    reachable yet, it is every keep touching neutrals.
+    // ------------------------------------------------------------------
+    void CollectReinforcements(List<Graph.VertexT> mine, List<Move> moves)
+    {
+        var front = new List<Graph.VertexT>();
+
+        foreach (var v in mine)
+            if (IsKeepAtBorderWithNonNeutrals(v))
+                front.Add(v);
+
+        if (front.Count == 0)
+        {
+            foreach (var v in mine)
+                if (IsKeepAtBorder(v))
+                    front.Add(v);
+        }
+
+        if (front.Count == 0)
             return;
 
-        }
-        else
+        // distance (in keeps) from the front, walking through our own territory only
+        var dist = new Dictionary<Graph.VertexT, int>();
+        var queue = new Queue<Graph.VertexT>();
+
+        foreach (var f in front)
         {
-            OnExpansionRoutine(v);
+            dist[f] = 0;
+            queue.Enqueue(f);
         }
+
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+
+            foreach (var nb in graph.GetAdjacentVertices(current))
+            {
+                if (!IsMine(nb) || dist.ContainsKey(nb))
+                    continue;
+
+                dist[nb] = dist[current] + 1;
+                queue.Enqueue(nb);
+            }
+        }
+
+        foreach (var v in mine)
+        {
+            int d;
+            if (!dist.TryGetValue(v, out d) || d == 0)
+                continue;
+
+            if (Spare(v) <= 0 || ShouldHold(v))
+                continue;
+
+            // step toward the front, preferring the neighbour with the least energy so it spreads out
+            Graph.VertexT best = null;
+
+            foreach (var nb in graph.GetAdjacentVertices(v))
+            {
+                int nd;
+                if (!IsMine(nb) || !dist.TryGetValue(nb, out nd) || nd >= d)
+                    continue;
+
+                if (best == null || nb.keep.EnergyCount < best.keep.EnergyCount)
+                    best = nb;
+            }
+
+            if (best == null)
+                continue;
+
+            moves.Add(new Move { source = v, target = best, score = 1f + Spare(v) * 0.3f });
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // Helpers
+    // ------------------------------------------------------------------
+    bool IsMine(Graph.VertexT v)
+    {
+        return v.keep.Faction == faction;
+    }
+
+    bool IsEnemy(Graph.VertexT v)
+    {
+        return v.keep.Faction != faction && v.keep.Faction != Factions.Neutral;
+    }
+
+    // energy a keep can send without leaving itself empty
+    int Spare(Graph.VertexT v)
+    {
+        return Mathf.Max(0, v.keep.EnergyCount - Garrison);
+    }
+
+    // total energy of non-neutral enemy keeps next to v (optionally ignoring one of them)
+    int EnemyEnergyAround(Graph.VertexT v, Graph.VertexT exclude = null)
+    {
+        int sum = 0;
+
+        foreach (var n in graph.GetAdjacentVertices(v))
+            if (n != exclude && IsEnemy(n))
+                sum += n.keep.EnergyCount;
+
+        return sum;
+    }
+
+    // how much a keep can resist: its own energy plus help from allied neighbours (neutrals get no help)
+    float DefenceOf(Graph.VertexT n)
+    {
+        float defence = n.keep.EnergyCount;
+
+        if (IsEnemy(n))
+        {
+            foreach (var nb in graph.GetAdjacentVertices(n))
+                if (nb.keep.Faction == n.keep.Faction)
+                    defence += nb.keep.EnergyCount * ReinforceWeight;
+        }
+
+        return defence;
+    }
+
+    // how much energy we can throw at n from all our keeps touching it
+    float OffenceAgainst(Graph.VertexT n)
+    {
+        float offence = 0f;
+
+        foreach (var nb in graph.GetAdjacentVertices(n))
+            if (IsMine(nb))
+                offence += Spare(nb);
+
+        return offence;
+    }
+
+    // a border keep waits (instead of sending energy away) while a neutral neighbour is nearly winnable
+    bool ShouldHold(Graph.VertexT v)
+    {
+        foreach (var n in graph.GetAdjacentVertices(v))
+            if (n.keep.Faction == Factions.Neutral && n.keep.EnergyCount <= v.keep.EnergyCount + NeutralHoldSlack)
+                return true;
+
+        return false;
     }
 }

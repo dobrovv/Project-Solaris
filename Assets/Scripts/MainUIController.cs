@@ -75,7 +75,11 @@ public class MainUIController : MonoBehaviour
     public void OnSkirmishStartRequest(MapSize mapSize, AIStrength aiStrength, int numOpponents)
     {
         MainMenuOptions.GameMode = "Skirmish";
-
+        
+        int seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        Debug.Log("Seed: " + seed);
+        
+        MainMenuOptions.Seed = seed;
         MainMenuOptions.MapSize = mapSize.ToString();
         MainMenuOptions.AIDifficulty = aiStrength.ToString();
         MainMenuOptions.OpponentsCount = numOpponents;

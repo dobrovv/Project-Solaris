@@ -351,6 +351,11 @@ public class StarComp : MonoBehaviour
                 GrowingCircle.CreateStarPulse(position, new Color(252f / 255f, 211f / 255f, 77f / 255f), 0.5f, StarTypes.GetStarTypeRadius(starType) - 0.1f);
 
                 GameManager.Instance.graph.GetEdgesFromVertex(vertex).ForEach(edge => edge.Road.SetSolidLine());
+                
+                if (GameManager.Instance.selectedStar == this)
+                {
+                    GameManager.Instance.SetSelectedStar(null);
+                }
             }
             else if (unit.EnergyCount <= energyCountFloat)
             {

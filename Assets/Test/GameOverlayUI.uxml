@@ -1,10 +1,19 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Test/GameOverlayStyles.uss?fileID=7433441132597879392&amp;guid=8e3c745d4281008489ad1e11def10a03&amp;type=3#GameOverlayStyles"/>
-    <ui:VisualElement name="RootContainer" style="align-self: flex-end;">
-        <ui:VisualElement name="VisualElement" style="flex-grow: 0; flex-direction: row; flex-wrap: nowrap; justify-content: flex-start; align-self: center; align-items: auto;">
-            <ui:VisualElement name="SpeedContainer" style="flex-grow: 1; flex-direction: row; margin-top: 25px; margin-right: 25px; margin-bottom: 25px; margin-left: 25px; align-self: auto; justify-content: center; align-items: center; -unity-text-align: upper-left; align-content: center; background-color: rgba(0, 0, 0, 0.502); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-bottom-left-radius: 12px; border-left-color: rgb(143, 156, 174); border-right-color: rgb(143, 156, 174); border-top-color: rgb(143, 156, 174); border-bottom-color: rgb(143, 156, 174);">
-                <ui:Button text="" name="PauseButton" class="speed-button" style="justify-content: space-around; align-items: center;">
-                    <ui:Image name="Image" source="project://database/Assets/Textures/pause-svgrepo-com.svg?fileID=7388822144124034973&amp;guid=cd615a1ee5da0a84895aa8c8357b3eb1&amp;type=3#pause-svgrepo-com" scale-mode="ScaleAndCrop" tint-color="rgb(255, 255, 255)" style="width: 100px; height: 100px; aspect-ratio: 1;"/>
+    <ui:VisualElement name="RootContainer" picking-mode="Ignore" class="overlay-root">
+        <ui:VisualElement name="LevelClearedContainer" class="level-cleared-container">
+            <ui:VisualElement class="eyebrow-row">
+                <ui:VisualElement class="eyebrow-line"/>
+                <ui:Label text="MISSION STATUS" name="LevelClearedMissionStatus" class="eyebrow"/>
+                <ui:VisualElement class="eyebrow-line"/>
+            </ui:VisualElement>
+            <ui:Label name="LevelClearedLabel" text="LEVEL CLEARED" class="level-cleared-title"/>
+            <ui:Button name="ContinueButton" text="CONTINUE" class="level-cleared-button"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="GameSpeedContainer" picking-mode="Ignore" class="game-speed-container">
+            <ui:VisualElement name="SpeedContainer" class="speed-container">
+                <ui:Button text="" name="PauseButton" class="speed-button">
+                    <ui:Image name="Image" source="project://database/Assets/Textures/pause-svgrepo-com.svg?fileID=7388822144124034973&amp;guid=cd615a1ee5da0a84895aa8c8357b3eb1&amp;type=3#pause-svgrepo-com" scale-mode="ScaleToFit" class="speed-icon"/>
                 </ui:Button>
                 <ui:Button text="1×" name="1xButton" class="speed-button speed-button-selected"/>
                 <ui:Button text="2×" name="2xButton" class="speed-button"/>

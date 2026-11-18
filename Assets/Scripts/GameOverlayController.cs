@@ -1,16 +1,88 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class GameOverlayController : MonoBehaviour
 {
     private PanelRenderer _panelRenderer;
-    
+    private VisualElement rootElement;
+
     private Button PauseButton;
     private Button OneXButton;
     private Button TwoXButton;
     private Button ThreeXButton;
     private List<Button> speedButtons = new List<Button>();
+
+    private VisualElement levelClearedContainer;
+
+
+    public void ShowLevelClearedUI(bool playerWon)
+    {
+        if (levelClearedContainer != null)
+        {
+            levelClearedContainer.style.display = DisplayStyle.Flex; // Show the container
+            rootElement.Q<Label>("LevelClearedLabel").text = playerWon ? "Level Cleared!" : "Level Failed!";
+
+            if (MainMenuOptions.GameMode == "Campaign")
+            {
+                rootElement.Q<Label>("LevelClearedMissionStatus").text = "MISSION " + MainMenuOptions.SelectedMap + " STATUS";
+
+                rootElement.Q<Button>("ContinueButton").text = playerWon ? "Continue" : "Retry";
+                
+                if (playerWon)
+                {
+                    rootElement.Q<Button>("ContinueButton").RegisterCallback<ClickEvent>(evt => OnContinueCampaignClicked());
+                } 
+                else
+                {
+                    rootElement.Q<Button>("ContinueButton").RegisterCallback<ClickEvent>(evt => OnRetryCampaignClicked());
+                }
+                    
+
+            }
+            else
+            {
+                rootElement.Q<Button>("ContinueButton").text = playerWon ? "Regenerate" : "Retry";
+                
+                if (playerWon)
+                {
+                    rootElement.Q<Button>("ContinueButton").RegisterCallback<ClickEvent>(evt => OnContinueSkirmishClicked());
+                }
+                else
+                {
+                    rootElement.Q<Button>("ContinueButton").RegisterCallback<ClickEvent>(evt => OnRetrySkirmishClicked());
+                }
+
+            }
+
+        }
+    }
+
+    private void OnContinueCampaignClicked()
+    {
+        MainMenuOptions.SelectedMap = (int.Parse(MainMenuOptions.SelectedMap) + 1).ToString("D2");
+        SceneManager.LoadScene("GameScene");
+    }
+
+    private void OnRetryCampaignClicked()
+    {
+        SceneManager.LoadScene("GameScene");
+    }
+
+    private void OnContinueSkirmishClicked()
+    {
+        int seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        Debug.Log("Seed: " + seed);
+        MainMenuOptions.Seed = seed;
+        SceneManager.LoadScene("GameScene");
+    }
+
+    private void OnRetrySkirmishClicked()
+    {
+        SceneManager.LoadScene("GameScene");
+    }
+
 
     private void OnEnable()
     {
@@ -46,6 +118,7 @@ public class GameOverlayController : MonoBehaviour
 
     private void OnUiReloaded(PanelRenderer pr, VisualElement root)
     {
+        rootElement = root;
         // Query elements directly from the provided root argument
         PauseButton = root.Q<Button>("PauseButton");
         OneXButton = root.Q<Button>("1xButton");
@@ -63,6 +136,9 @@ public class GameOverlayController : MonoBehaviour
         TwoXButton.RegisterCallback<ClickEvent>(OnTwoXClicked);
         ThreeXButton.RegisterCallback<ClickEvent>(OnThreeXClicked);
 
+
+        levelClearedContainer = root.Q<VisualElement>("LevelClearedContainer");
+        levelClearedContainer.style.display = DisplayStyle.None; // Hide the container initially
 
 
     }

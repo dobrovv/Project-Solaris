@@ -1,6 +1,177 @@
+/* =========================================================
+   SOLARIS - In-game overlay
+   Matches MainUI: square corners, thin cyan lines, cyan fill
+   for the active state. Backgrounds stay translucent so the
+   map stays visible underneath.
+   ========================================================= */
+
 :root {
 }
 
+.overlay-root {
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+/* ---------- shared eyebrow (small label with side lines) ---------- */
+.eyebrow-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.eyebrow-line {
+    width: 18px;
+    height: 1px;
+    margin-left: 8px;
+    margin-right: 8px;
+    background-color: rgba(75, 220, 245, 0.7);
+}
+
+.eyebrow {
+    color: rgb(75, 220, 245);
+    font-size: 9px;
+    -unity-font-style: bold;
+    letter-spacing: 3px;
+    -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
+}
+
+/* ---------- LEVEL CLEARED ---------- */
+.level-cleared-container {
+    position: absolute;
+    top: 5%;
+    left: auto;
+    right: auto;
+    align-self: center;
+    align-items: stretch;
+    min-width: 260px;
+    padding: 16px 26px 18px 26px;
+    background-color: rgba(4, 10, 20, 0.62);
+    border-width: 1px;
+    border-color: rgba(75, 200, 230, 0.25);
+    border-top-width: 2px;
+    border-top-color: rgb(75, 220, 245);
+    border-radius: 0;
+}
+
+.level-cleared-title {
+    color: rgb(75, 220, 245);
+    font-size: 24px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    letter-spacing: 3px;
+    text-shadow: 0 0 14px rgba(75, 220, 245, 0.55);
+    -unity-font-definition: resource("Fonts/SpaceGrotesk-Light");
+}
+
+.level-cleared-button {
+    height: 42px;
+    margin: 14px 0 0 0;
+    padding: 0;
+    background-color: rgba(60, 215, 240, 0.92);
+    border-width: 1px;
+    border-color: rgb(120, 240, 255);
+    border-radius: 0;
+    color: rgb(3, 18, 30);
+    font-size: 11px;
+    -unity-font-style: bold;
+    letter-spacing: 3px;
+    transition-property: background-color, border-color, scale;
+    transition-duration: 150ms;
+    -unity-font-definition: resource("Fonts/JetBrainsMono-Regular");
+}
+
+.level-cleared-button:hover {
+    background-color: rgb(130, 238, 252);
+    border-color: rgb(200, 250, 255);
+}
+
+.level-cleared-button:active {
+    scale: 0.97 0.97;
+    background-color: rgb(40, 180, 205);
+}
+
+/* ---------- GAME SPEED (top right) ---------- */
+.game-speed-container {
+    align-self: flex-end;
+    margin: 14px;
+}
+
+.speed-container {
+    flex-direction: row;
+    align-items: stretch;
+    background-color: rgba(4, 10, 20, 0.55);
+    border-width: 1px;
+    border-color: rgba(75, 200, 230, 0.25);
+    border-top-width: 2px;
+    border-top-color: rgb(75, 220, 245);
+    border-radius: 0;
+}
+
+.speed-button {
+    width: 40px;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    border-right-width: 1px;
+    border-right-color: rgba(95, 160, 195, 0.22);
+    border-radius: 0;
+    color: rgba(175, 197, 220, 0.8);
+    font-size: 12px;
+    -unity-font-style: bold;
+    transition-property: background-color, color;
+    transition-duration: 0.2s;
+}
+
+.speed-button:last-child {
+    border-right-width: 0;
+}
+
+.speed-button:hover {
+    color: rgb(255, 255, 255);
+    background-color: rgba(28, 80, 105, 0.55);
+}
+
+.speed-button:active {
+    scale: 0.94 0.94;
+}
+
+.speed-button-selected,
+.speed-button-selected:hover {
+    background-color: rgba(60, 215, 240, 0.92);
+    color: rgb(3, 18, 30);
+}
+
+.speed-button-selected:hover {
+    background-color: rgb(130, 238, 252);
+}
+
+/* pause icon */
+.speed-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    --unity-image-tint-color: rgba(175, 197, 220, 0.9);
+    -unity-background-image-tint-color: rgba(175, 197, 220, 0.9);
+}
+
+.speed-button:hover .speed-icon {
+    --unity-image-tint-color: rgb(255, 255, 255);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+.speed-button-selected .speed-icon,
+.speed-button-selected:hover .speed-icon {
+    --unity-image-tint-color: rgb(3, 18, 30);
+    -unity-background-image-tint-color: rgb(3, 18, 30);
+}
+
+/* ---------- LEGACY (kept unchanged in case other UXML files use them) ---------- */
 .button {
     font-size: 20px;
     -unity-font-style: bold;
@@ -37,60 +208,4 @@
     margin-top: 2%;
     align-items: center;
     height: 15%;
-}
-
-.speed-button {
-    border-left-color: rgb(0, 0, 0);
-    border-right-color: rgb(0, 0, 0);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(0, 0, 0);
-    border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
-    border-bottom-left-radius: 50%;
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    background-color: rgba(0, 0, 0, 0);
-    font-size: 10px;
-    color: rgb(143, 156, 174);
-    justify-content: space-around;
-    -unity-text-outline-width: 0;
-    -unity-text-outline-color: rgb(0, 0, 0);
-    width: 30px;
-    height: 30px;
-    transition-duration: 0.35s;
-}
-
-.speed-button:hover {
-    -unity-font-style: bold;
-    color: rgb(255, 255, 255);
-    background-color: rgba(255, 255, 255, 0.098);
-}
-
-.speed-button-selected {
-    font-size: 10px;
-    background-color: rgb(79, 209, 255);
-    color: rgb(0, 0, 0);
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-left-color: rgba(143, 156, 174, 0.475);
-    border-right-color: rgba(143, 156, 174, 0.475);
-    border-top-color: rgba(143, 156, 174, 0.475);
-    border-bottom-color: rgba(143, 156, 174, 0.475);
-}
-
-.speed-button-selected Image {
-    --unity-image-tint-color: rgb(0, 0, 0);
-    -unity-background-image-tint-color : rgb(0, 0, 0);
-}
-
-.speed-button-selected:hover {
-    -unity-font-style: normal;
-    font-size: 10px;
-    background-color: rgb(88, 228, 198);
-    color: rgb(0, 0, 0);
 }
