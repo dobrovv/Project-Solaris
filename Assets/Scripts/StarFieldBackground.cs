@@ -66,7 +66,7 @@ public class StarfieldBackground : MonoBehaviour
 
         if (randomSeed != 0) Random.InitState(randomSeed);
 
-        circleSprite = CreateCircleSprite(64);
+        circleSprite = CreateCircleSprite(8);
 
         float height = targetCamera.orthographicSize * 2f * areaMultiplier;
         fieldSize = new Vector2(height * targetCamera.aspect, height);

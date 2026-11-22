@@ -7,13 +7,16 @@ public class EnergyComp : MonoBehaviour
     private int popCount;
     public float speed = 3.3f; // Speed of the unit's movement
 
-    public StarComp originKeep;
+    private StarComp originKeep;
     private LaneComp road;
 
     private Vector3 targetPos;
 
     private GameObject quadCircle, quadGlow;
     private LineRenderer lineRenderer;
+
+
+    public StarComp Origin {  get; private set; }
 
     public Faction Faction
     {

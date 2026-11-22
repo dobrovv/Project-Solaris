@@ -1,20 +1,16 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Test/MainUI.uss?fileID=7433441132597879392&amp;guid=f48ce707622d8964da55d740af36bec1&amp;type=3#MainUI"/>
     <ui:VisualElement name="root" class="root">
-
-        <!-- TOP BAR -->
         <ui:VisualElement class="topbar">
             <ui:VisualElement class="brand-lockup">
-                <ui:VisualElement class="brand-mark"/>
+                <ui:VisualElement name="VisualElement" class="brand-mark"/>
                 <ui:Label text="SOLARIS" class="brand-title"/>
             </ui:VisualElement>
             <ui:VisualElement class="status-lockup">
                 <ui:VisualElement class="status-dot"/>
-                <ui:Label text="ONLINE  /  BUILD 01" class="status-text"/>
+                <ui:Label text="ONLINE  /  BUILD 01" class="status-text" style="-unity-font-style: normal;"/>
             </ui:VisualElement>
         </ui:VisualElement>
-
-        <!-- MAIN PAGE -->
         <ui:VisualElement name="main-page" class="page main-page">
             <ui:VisualElement class="eyebrow-row">
                 <ui:VisualElement class="eyebrow-line"/>
@@ -29,8 +25,6 @@
             </ui:VisualElement>
             <ui:Label text="EXPAND  •  CONTROL  •  CONQUER" class="main-page-footer"/>
         </ui:VisualElement>
-
-        <!-- CAMPAIGN PAGE -->
         <ui:VisualElement name="campaign-page" class="page content-page page-hidden">
             <ui:VisualElement class="content-panel campaign-panel">
                 <ui:VisualElement class="eyebrow-row">
@@ -39,10 +33,7 @@
                 </ui:VisualElement>
                 <ui:Label text="SELECT OPERATION" class="section-title"/>
                 <ui:Label text="Choose one of the 30 campaign missions." class="section-subtitle"/>
-
-                <ui:ScrollView name="level-scroll" class="level-scroll" mode="Vertical" vertical-scroller-visibility="Auto" horizontal-scroller-visibility="Hidden" mouse-wheel-scroll-size="60">
-
-                    <!-- SECTOR ALPHA -->
+                <ui:ScrollView name="level-scroll" mode="Vertical" vertical-scroller-visibility="Auto" horizontal-scroller-visibility="Hidden" mouse-wheel-scroll-size="60" class="level-scroll">
                     <ui:VisualElement class="chapter-header">
                         <ui:Label text="SECTOR ALPHA" class="chapter-title"/>
                         <ui:VisualElement class="chapter-line"/>
@@ -60,8 +51,6 @@
                         <ui:Button name="level-9" text="09" class="level-button"/>
                         <ui:Button name="level-10" text="10" class="level-button boss"/>
                     </ui:VisualElement>
-
-                    <!-- SECTOR BETA -->
                     <ui:VisualElement class="chapter-header">
                         <ui:Label text="SECTOR BETA" class="chapter-title"/>
                         <ui:VisualElement class="chapter-line"/>
@@ -79,8 +68,6 @@
                         <ui:Button name="level-19" text="19" class="level-button"/>
                         <ui:Button name="level-20" text="20" class="level-button boss"/>
                     </ui:VisualElement>
-
-                    <!-- SECTOR GAMMA -->
                     <ui:VisualElement class="chapter-header">
                         <ui:Label text="SECTOR GAMMA" class="chapter-title"/>
                         <ui:VisualElement class="chapter-line"/>
@@ -98,9 +85,7 @@
                         <ui:Button name="level-29" text="29" class="level-button"/>
                         <ui:Button name="level-30" text="30" class="level-button boss"/>
                     </ui:VisualElement>
-
                 </ui:ScrollView>
-
                 <ui:VisualElement class="selection-bar">
                     <ui:Label name="campaign-selection-label" text="NO LEVEL SELECTED" class="selection-status"/>
                 </ui:VisualElement>
@@ -110,8 +95,6 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-
-        <!-- SKIRMISH PAGE -->
         <ui:VisualElement name="skirmish-page" class="page content-page page-hidden">
             <ui:VisualElement class="content-panel skirmish-panel">
                 <ui:VisualElement class="eyebrow-row">
@@ -120,7 +103,6 @@
                 </ui:VisualElement>
                 <ui:Label text="SKIRMISH SETUP" class="section-title"/>
                 <ui:Label text="Configure the battlefield and opposing forces." class="section-subtitle"/>
-
                 <ui:VisualElement class="settings-list">
                     <ui:VisualElement class="setting-row">
                         <ui:VisualElement class="setting-copy">
@@ -133,7 +115,6 @@
                             <ui:Button name="map-large" text="LARGE" class="option-button"/>
                         </ui:VisualElement>
                     </ui:VisualElement>
-
                     <ui:VisualElement class="setting-row">
                         <ui:VisualElement class="setting-copy">
                             <ui:Label text="AI STRENGTH" class="setting-title"/>
@@ -145,7 +126,6 @@
                             <ui:Button name="ai-hard" text="HARD" class="option-button"/>
                         </ui:VisualElement>
                     </ui:VisualElement>
-
                     <ui:VisualElement class="setting-row">
                         <ui:VisualElement class="setting-copy">
                             <ui:Label text="OPPONENTS" class="setting-title"/>
@@ -158,13 +138,11 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-
                 <ui:VisualElement class="panel-actions">
                     <ui:Button name="skirmish-back-button" text="BACK" class="secondary-button action-button"/>
                     <ui:Button name="skirmish-start-button" text="START MATCH" class="primary-button action-button"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-
     </ui:VisualElement>
 </ui:UXML>

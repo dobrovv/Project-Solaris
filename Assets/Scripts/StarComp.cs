@@ -54,8 +54,8 @@ public class StarComp : MonoBehaviour
     public float energyIncCountdown = POP_INC_INTERVAL; // Countdown timer for increasing popCount
 
     // ───────────────────────── Visual state ─────────────────────────
-    private GameObject quadCircle, quadProgress, quadSelection, quadOutline, quadIcon, quadGlow;
-    private Material matCircle, matProgress, matSelection, matOutline, matIcon, matGlow;
+    private GameObject quadCircle, quadProgress, quadSelection, quadOutline, quadIcon, quadIcon2, quadGlow;
+    private Material matCircle, matProgress, matSelection, matOutline, matIcon, matIcon2, matGlow;
     private TMPro.TextMeshPro energyText;
 
     private bool visualsReady;
@@ -158,7 +158,14 @@ public class StarComp : MonoBehaviour
         SetScale(quadGlow, GLOW_SCALE * appear * (1f + 0.03f * breath + flash * 0.12f));
 
         // Icon ring: very subtle breathing
-        SetScale(quadIcon, ICON_SCALE * appear * (1f + 0.02f * breath));
+        if (starType == StarType.GasGiant)
+        {
+            quadIcon.transform.localScale = new Vector3(ICON_SCALE * appear * (1f + 0.02f * breath), ICON_SCALE/2 * appear * (1f + 0.02f * breath), 1f);
+            quadIcon2.transform.localScale = new Vector3((ICON_SCALE + 0.25f) * appear * (1f + 0.02f * breath), (ICON_SCALE + 0.25f) / 2 * appear * (1f + 0.02f * breath), 1f);
+        }
+        else {  
+            SetScale(quadIcon, ICON_SCALE * appear * (1f + 0.02f * breath));
+        }
 
         // Energy number pops when something happens
         float textScale = appear * (1f + 0.3f * punch * punch);
@@ -229,7 +236,14 @@ public class StarComp : MonoBehaviour
         matCircle.SetColor(ColorId, displayColor);
         matCircle.SetColor(FillId, DiskFill(displayColor));   // dark disk with a hint of faction colour
         if (!isOverfilled()) matProgress.SetColor(ColorId, displayColor);
-        matIcon.SetColor(ColorId, displayColor);
+        
+        if (starType == StarType.Normal) { 
+            matIcon.SetColor(ColorId, displayColor);
+        } else if (starType == StarType.GasGiant)
+        {
+            matIcon.SetColor(ColorId, displayColor);
+            matIcon2.SetColor(ColorId, displayColor);
+        }
         matGlow.SetColor(ColorId, displayColor);
         matSelection.SetColor(ColorId, displayColor);
         matOutline.SetColor(ColorId, displayColor);
@@ -250,6 +264,7 @@ public class StarComp : MonoBehaviour
 
     private static void SetScale(GameObject go, float s)
     {
+        if (go == null) return;
         go.transform.localScale = new Vector3(s, s, 1f);
     }
 
@@ -351,7 +366,7 @@ public class StarComp : MonoBehaviour
                 GrowingCircle.CreateStarPulse(position, new Color(252f / 255f, 211f / 255f, 77f / 255f), 0.5f, StarTypes.GetStarTypeRadius(starType) - 0.1f);
 
                 GameManager.Instance.graph.GetEdgesFromVertex(vertex).ForEach(edge => edge.Road.SetSolidLine());
-                
+
                 if (GameManager.Instance.selectedStar == this)
                 {
                     GameManager.Instance.SetSelectedStar(null);
@@ -413,9 +428,24 @@ public class StarComp : MonoBehaviour
 
     private void CreateIcon()
     {
-        quadIcon = CreateQuad("IconQuad", "Shaders/Shader Graphs_Circle", ICON_SCALE, 1f, out matIcon);
-        matIcon.SetFloat(DiameterId, 0.58f);
-        matIcon.SetFloat(ThicknessId, 0.014f);
+        if (starType == StarType.Normal) { 
+            quadIcon = CreateQuad("IconQuad", "Shaders/Shader Graphs_Circle", ICON_SCALE, 1f, out matIcon);
+            matIcon.SetFloat(DiameterId, 0.58f);
+            matIcon.SetFloat(ThicknessId, 0.014f);
+        } else if (starType == StarType.GasGiant)
+        {
+            quadIcon = CreateQuad("IconQuad", "Shaders/Shader Graphs_Circle", ICON_SCALE, 1f, out matIcon);
+            quadIcon.transform.localScale = new Vector3(ICON_SCALE, ICON_SCALE/2f, 1f);
+            matIcon.SetFloat(DiameterId, 0.7f);
+            matIcon.SetFloat(ThicknessId, 0.02f);
+
+            quadIcon2 = CreateQuad("IconQuad2", "Shaders/Shader Graphs_Circle", ICON_SCALE+0.1f, 1f, out matIcon2);
+            //quadIcon.transform.localScale = new Vector3(ICON_SCALE+0.1f, (ICON_SCALE+0.1f)/2, 1f);
+            quadIcon2.transform.localScale = new Vector3(ICON_SCALE+0.25f, (ICON_SCALE+0.25f) / 2f, 1f);
+            matIcon2.SetFloat(DiameterId, 0.7f);
+            matIcon2.SetFloat(ThicknessId, 0.02f);
+
+        }
     }
 
     private void CreateSelection()
@@ -491,6 +521,7 @@ public class StarComp : MonoBehaviour
         if (matCircle != null) Destroy(matCircle);
         if (matProgress != null) Destroy(matProgress);
         if (matIcon != null) Destroy(matIcon);
+        if (matIcon2 != null) Destroy(matIcon2);
         if (matSelection != null) Destroy(matSelection);
         if (matOutline != null) Destroy(matOutline);
         if (matGlow != null) Destroy(matGlow);
