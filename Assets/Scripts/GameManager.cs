@@ -70,7 +70,8 @@ public class GameManager : MonoBehaviour
                 AI.Build("Easy", ai1, graph);
                 AI.Build("Easy", ai2, graph);
                 AI.Build("Easy", ai3, graph);
-            } else if (MainMenuOptions.SelectedMap == "03" || MainMenuOptions.SelectedMap == "04" || MainMenuOptions.SelectedMap == "05" || MainMenuOptions.SelectedMap == "06")
+            } else if (MainMenuOptions.SelectedMap == "03" || MainMenuOptions.SelectedMap == "04" || MainMenuOptions.SelectedMap == "05" || MainMenuOptions.SelectedMap == "06"
+                       || MainMenuOptions.SelectedMap == "07" || MainMenuOptions.SelectedMap == "08" || MainMenuOptions.SelectedMap == "09" || MainMenuOptions.SelectedMap =="10")
             {
                 AI.Build("Normal", ai1, graph);
                 AI.Build("Normal", ai2, graph);

@@ -186,6 +186,7 @@ public class AIEasy : AI
 
 public class AINormal : AI
 {
+    int aiThrottleCounter = 0;
     // ------------------------------------------------------------------
     // Tuning knobs - for normal ai, same as hard
     // ------------------------------------------------------------------
@@ -207,6 +208,11 @@ public class AINormal : AI
 
     override protected void DoUpdate()
     {
+        aiThrottleCounter = (aiThrottleCounter + 1) % 4; // Throttle AI actions to every 4th update
+
+        if (aiThrottleCounter != 0)
+            return;
+
         var mine = GetKeepsForFaction(faction);
 
         if (mine.Count == 0)
