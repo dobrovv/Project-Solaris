@@ -256,7 +256,7 @@ public class AINormal : AI
                 float advantage = OffenceAgainst(n) - DefenceOf(n);
                 if (advantage <= 0)
                     continue;
-                float score = advantage + (IsEnemy(n) ? EnemyValue : NeutralValue);
+                float score = advantage * 0.5f + v.keep.EnergyCount * 0.5f + (IsEnemy(n) ? EnemyValue : NeutralValue);
                 moves.Add(new Move { source = v, target = n, score = score });
             }
         }
